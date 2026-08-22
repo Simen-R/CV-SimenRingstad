@@ -27,3 +27,9 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# personlige dokumenter – ligger lokalt, skal ikke inn i historikken
+# (gateadresse og telefonnummer). Legg heller en versjon uten adresse
+# i public/ hvis du vil tilby CV-en som nedlasting.
+Simen_Ringstad_CV_2026.pdf
+Studentassistentstilling til SEFIO utlysning.docx
