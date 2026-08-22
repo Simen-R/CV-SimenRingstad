@@ -34,7 +34,10 @@ export function Timeline({ poster }: { poster: TidslinjePost[] }) {
           />
           <FadeUp delay={indeks * 80}>
             <p className="text-sm text-muted-foreground">
-              {formaterDato(post.fra)} – {formaterDato(post.til)}
+              {/* «Høst 2023 – Høst 2023» leses dårlig – vis den bare én gang. */}
+              {post.fra === post.til
+                ? formaterDato(post.fra)
+                : `${formaterDato(post.fra)} – ${formaterDato(post.til)}`}
             </p>
             <h3 className="mt-1 text-lg font-semibold">{post.tittel}</h3>
             <p className="text-muted-foreground">

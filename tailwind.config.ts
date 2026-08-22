@@ -16,6 +16,26 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "SF Pro Text",
+          "SF Pro Display",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
+      },
+      // SF strammer sporingen selv på store grader; her hermer vi det.
+      letterSpacing: {
+        display: "-0.022em",
+      },
+      transitionTimingFunction: {
+        mjuk: "cubic-bezier(0.32, 0.72, 0, 1)",
+      },
       colors: {
         border: "hsl(var(--border))",
         background: "hsl(var(--background))",

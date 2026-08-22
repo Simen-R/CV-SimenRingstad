@@ -1,22 +1,22 @@
 import type { Profil } from "@/types/cv";
 
-// TODO: Bytt ut placeholder-tekst med dine egne opplysninger.
 export const profil: Profil = {
   navn: "Simen Ringstad",
-  tittel: "Utvikler og student ved OsloMet",
+  tittel: "Student i anvendt datateknologi ved OsloMet",
   kortIngress:
-    "Jeg bygger web-løsninger som er raske, ryddige og faktisk til å bruke – helst med Next.js og TypeScript.",
-  omMeg: [
-    "Her skriver du et par avsnitt om hvem du er: hva du studerer, hva du jobber med i dag, og hva som gjør at du liker å bygge ting.",
-    "Andre avsnitt kan handle om hvordan du jobber – hva du er god på i et team, og hva du vil jobbe mer med framover.",
-  ],
+    "Helsefagarbeider som ble teknolog. Jeg jobber med teknisk kundeservice i Telia og bygger web med Next.js og TypeScript ved siden av studiene.",
+  // Gateadressen fra PDF-en er med vilje utelatt – den hører hjemme i søknaden,
+  // ikke på en åpen nettside.
   sted: "Oslo, Norge",
-  epost: "sirin5962@oslomet.no",
-  // telefon: "+47 000 00 000",
+  epost: "simen.ringstad@icloud.com",
+  telefon: "FJERNET",
   bildeUrl: "/bilder/portrett.jpg",
-  cvPdfUrl: "/cv-simen-ringstad.pdf",
+  // PDF-en inneholder gateadresse og telefonnummer. Vil du tilby nedlasting,
+  // legg en versjon uten adresse i public/ og fjern kommentaren under.
+  // cvPdfUrl: "/cv-simen-ringstad.pdf",
   lenker: [
     { navn: "GitHub", url: "https://github.com/Simen-R" },
+    // TODO: Fyll inn LinkedIn-URL-en din, eller slett linja.
     { navn: "LinkedIn", url: "https://www.linkedin.com/in/" },
   ],
 };

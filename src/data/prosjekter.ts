@@ -2,6 +2,18 @@ import type { Prosjekt } from "@/types/cv";
 
 export const prosjekter: Prosjekt[] = [
   {
+    id: "cv-nettside",
+    navn: "Denne CV-siden",
+    ingress: "Digital CV bygget i Next.js, med Claude Code som medutvikler.",
+    beskrivelse:
+      "Alt innholdet ligger som typede data i src/data, så teksten kan endres uten å røre komponentene. «Veien hit» på forsiden er et flytskjema der pilene måles opp ut fra hvor kortene faktisk havner i rutenettet, og faller tilbake til tekst på smale skjermer. Bygget sammen med Claude Code: jeg satte arkitekturen, datamodellen og innholdet, og brukte modellen til å skrive og skrive om koden – og til å diskutere hva som burde stå hvor.",
+    aar: "2026",
+    rolle: "Utvikler – arkitektur, datamodell og innhold",
+    teknologier: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code"],
+    kodeUrl: "https://github.com/Simen-R/CV-SimenRingsatd",
+    fremhevet: true,
+  },
+  {
     id: "pris-kalkulator",
     navn: "Priskalkulator",
     ingress:
@@ -28,15 +40,19 @@ export const prosjekter: Prosjekt[] = [
     fremhevet: true,
   },
   {
-    id: "snartup-forside",
-    navn: "Snartup – forside",
-    ingress: "Landingsside med videobakgrunn og partnerkarusell.",
+    // Repoet er privat, så her står bare demoUrl – ingen kodeUrl.
+    // TODO: fyll ut teknologilista. Next.js og Firebase er lest ut av selve
+    // nettstedet; resten (TypeScript? Tailwind? Firestore?) vet bare du.
+    id: "snartup-plattform",
+    navn: "Snartup.no",
+    ingress:
+      "Markedsplassen for ideer, innovasjon og samarbeid – plattformen jeg utvikler hos Snartup.",
     beskrivelse:
-      "Forside bygget i ren HTML, CSS og JavaScript, med videobakgrunn, kortseksjon og en logokarusell som ruller kontinuerlig.",
+      "Nettplattform som kobler studenter, gründere og næringsliv: prosjekter og profiler, et interaktivt kart over startup-økosystemet, og påmelding til arrangementer. Jeg jobber på hele kodebasen, ikke én enkelt side – Next.js i front, Firebase i bunn, med feilovervåking og analyse på plass i produksjon.",
     aar: "2026",
-    rolle: "Utvikler",
-    teknologier: ["HTML", "CSS", "JavaScript"],
-    kodeUrl: "https://github.com/Simen-R/frontpage",
+    rolle: "Utvikler – hele kodebasen",
+    teknologier: ["Next.js", "React", "Firebase"],
+    demoUrl: "https://snartup.no",
     fremhevet: true,
   },
 ];

@@ -5,7 +5,7 @@ import { SkillGroup } from "@/components/SkillGroup";
 
 export const metadata: Metadata = {
   title: "Ferdigheter",
-  description: "Teknologier og verktøy jeg jobber med.",
+  description: "Egenskaper, teknologier og verktøy jeg jobber med.",
 };
 
 export default function Ferdigheter() {
@@ -15,8 +15,8 @@ export default function Ferdigheter() {
         Ferdigheter
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
-        Nivåene sier hvor selvstendig jeg jobber med hver ting – ikke hvor mange
-        år jeg har på papiret.
+        Der det står et nivå, sier det hvor selvstendig jeg jobber med tingen –
+        ikke hvor mange år jeg har på papiret.
       </p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

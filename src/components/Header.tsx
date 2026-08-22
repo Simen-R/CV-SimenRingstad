@@ -7,7 +7,6 @@ import { profil } from "@/data/profil";
 import { cn } from "@/lib/utils";
 
 const navigasjon = [
-  { navn: "Om meg", url: "/om-meg" },
   { navn: "Erfaring", url: "/erfaring" },
   { navn: "Prosjekter", url: "/prosjekter" },
   { navn: "Ferdigheter", url: "/ferdigheter" },

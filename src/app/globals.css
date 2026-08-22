@@ -35,11 +35,72 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background font-sans text-foreground antialiased;
+    /* SF-familien setter optisk størrelse og tracking selv når den er tilgjengelig. */
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
     @apply bg-accent/20;
+  }
+}
+
+@layer components {
+  /* Web-oversettelse av Liquid Glass: gjennomskinnelig flate som plukker opp
+     det som ligger bak, hårstrek-kant og et lyst toppanslag. */
+  .glass {
+    @apply border border-border/70 bg-card/70 shadow-sm;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.5),
+      0 1px 2px hsl(222 20% 12% / 0.05);
+  }
+
+  .dark .glass {
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.06),
+      0 1px 2px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer utilities {
+  /* Linjene på stien tegner seg opp når seksjonen kommer til syne.
+     pathLength={1} i SVG-en gjør at 1 = hele lengden, uansett kurve. */
+  .sti-linje {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition:
+      stroke-dashoffset 1.1s cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 0.4s ease-out,
+      stroke-width 0.3s ease-out;
+  }
+
+  .sti-tegnet .sti-linje {
+    stroke-dashoffset: 0;
+  }
+
+  /* Pilspissen kommer etter at streken har rukket fram. */
+  .sti-pil {
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+  }
+
+  .sti-tegnet .sti-pil {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sti-linje {
+      stroke-dashoffset: 0;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .sti-pil {
+      opacity: 1;
+      transition: none;
+    }
   }
 }
 

@@ -46,7 +46,6 @@ src/
 │   ├── layout.tsx        # Felles ramme: header, footer, metadata
 │   ├── page.tsx          # Forside
 │   ├── globals.css       # Fargevariabler og grunnstiler
-│   ├── om-meg/
 │   ├── erfaring/         # Jobb + utdanning på samme tidslinje
 │   ├── prosjekter/
 │   ├── ferdigheter/
