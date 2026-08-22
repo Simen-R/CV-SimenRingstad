@@ -6,6 +6,7 @@ import { FadeUp } from "@/components/FadeUp";
 import { Section } from "@/components/Section";
 import { ProsjektKort } from "@/components/ProsjektKort";
 import { Sti } from "@/components/Sti";
+import { DansendeTittel } from "@/components/DansendeTittel";
 
 export default function Forside() {
   return (
@@ -19,9 +20,10 @@ export default function Forside() {
             />
             {profil.sted}
           </p>
-          <h1 className="mt-6 text-5xl font-semibold tracking-stor sm:text-7xl">
-            {profil.navn}
-          </h1>
+          <DansendeTittel
+            tekst={profil.navn}
+            className="mt-6 text-5xl font-semibold tracking-stor sm:text-7xl"
+          />
           <p className="mt-3 text-xl text-muted-foreground sm:text-2xl">
             {profil.tittel}
           </p>

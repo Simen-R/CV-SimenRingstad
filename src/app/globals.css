@@ -236,6 +236,22 @@
 }
 
 @layer utilities {
+  /* Bokstavene i den dansende tittelen. Alle fontvariantene ligger oppå
+     hverandre i samme grid-rute, så ruta er like brei som den breieste fonten
+     og ingenting flytter seg når fonten byttes.
+
+     Har brukeren skrudd av animasjoner, faller de tre gjestefontene helt ut av
+     layouten. Da står tittelen i hvilefonten sin, uten ekstra luft. */
+  @media (prefers-reduced-motion: reduce) {
+    .dans-variant {
+      transition: none;
+    }
+
+    .dans-variant:not(.dans-hvile) {
+      display: none;
+    }
+  }
+
   /* Linjene på stien tegner seg opp når seksjonen kommer til syne.
      pathLength={1} i SVG-en gjør at 1 = hele lengden, uansett kurve. */
   .sti-linje {

@@ -28,6 +28,23 @@ const config: Config = {
           "Arial",
           "sans-serif",
         ],
+        // Fontene overskriften danser innom, i tillegg til kursiv av
+        // antikvaen. Alt er systemfonter, så de koster ingen nedlasting: Apple
+        // gir New York og SF Mono, Windows gir Georgia og Consolas.
+        serif: [
+          "ui-serif",
+          '"New York"',
+          "Georgia",
+          '"Times New Roman"',
+          "serif",
+        ],
+        mono: [
+          "ui-monospace",
+          '"SF Mono"',
+          '"Cascadia Mono"',
+          "Consolas",
+          "monospace",
+        ],
       },
       // SF strammer sporingen selv på store grader; her hermer vi det.
       letterSpacing: {
