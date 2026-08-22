@@ -7,6 +7,10 @@ import { Footer } from "@/components/Footer";
 import { profil } from "@/data/profil";
 
 export const metadata: Metadata = {
+  // Delingsbildet og andre URL-felt trenger et absolutt utgangspunkt. Uten
+  // dette faller Next tilbake på deployment-URL-en fra Vercel, som endrer seg
+  // for hver preview.
+  metadataBase: new URL("https://cv-simen-ringstad.vercel.app"),
   title: {
     default: `${profil.navn} · ${profil.tittel}`,
     template: `%s · ${profil.navn}`,
@@ -17,6 +21,13 @@ export const metadata: Metadata = {
     description: profil.kortIngress,
     locale: "nb_NO",
     type: "profile",
+    url: "/",
+    siteName: profil.navn,
+  },
+  // X og LinkedIn henter bildet fra Open Graph, men trenger denne for å vise
+  // det stort i stedet for som en liten firkant.
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
