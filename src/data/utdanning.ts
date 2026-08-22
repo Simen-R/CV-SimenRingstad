@@ -20,7 +20,7 @@ export const utdanning: TidslinjePost[] = [
     fra: "2022",
     til: "2023",
     beskrivelse:
-      "Generell studiekompetanse etter fagbrevet – grunnlaget for å søke OsloMet.",
+      "Generell studiekompetanse etter fagbrevet, og grunnlaget for å søke OsloMet.",
   },
   {
     id: "royken-helsefag",

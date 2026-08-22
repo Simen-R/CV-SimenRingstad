@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { StiInnhold, StiNode } from "@/types/cv";
 import { cn } from "@/lib/utils";
@@ -127,7 +128,11 @@ export function Sti({ innhold }: { innhold: StiInnhold }) {
 
   const navn = useMemo(() => {
     const oppslag = new Map<string, string>();
-    for (const node of innhold.noder) oppslag.set(node.id, node.tittel);
+    // Framtidsstoppet står først i lesarekkefølgen uansett, så «førte videre
+    // til»-teksten skal ikke gjenta det rett under.
+    for (const node of innhold.noder) {
+      if (node.type !== "framtid") oppslag.set(node.id, node.tittel);
+    }
     return oppslag;
   }, [innhold.noder]);
 
@@ -301,7 +306,102 @@ function NodeKort({
   navn: Map<string, string>;
   onMarker: (id: string | null) => void;
 }) {
-  const videre = node.ledetTil.map((id) => navn.get(id) ?? id);
+  const videre = node.ledetTil
+    .map((id) => navn.get(id))
+    .filter((tittel): tittel is string => Boolean(tittel));
+  const framtid = node.type === "framtid";
+
+  const klasse = cn(
+    // Kortene er innhold, ikke navigasjon – de får flata, ikke glasset.
+    "flate flex h-full w-full flex-col rounded-lg p-5 text-left",
+    "transition-[opacity,transform,box-shadow,border-color] duration-500 ease-mjuk",
+    framhevet ? "opacity-100" : "opacity-35",
+    // Stoppet som ikke er tatt ennå står stiplet – en boks som venter på å fylles.
+    framtid && "border-dashed border-accent/45",
+    aktiv &&
+      "-translate-y-1 border-accent/50 shadow-[0_16px_40px_hsl(var(--skygge)/0.55)]",
+  );
+
+  // Samme markering enten kortet er en knapp eller en lenke.
+  const markering = {
+    onMouseEnter: () => onMarker(node.id),
+    onFocus: () => onMarker(node.id),
+    onBlur: () => onMarker(null),
+  };
+
+  const innhold = (
+    <>
+      <span
+        className={cn(
+          "flex items-center gap-2 text-xs",
+          framtid ? "font-medium text-accent" : "text-muted-foreground",
+        )}
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "h-1.5 w-1.5 rounded-full",
+            node.paagaaende || framtid
+              ? "bg-accent"
+              : node.type === "milepael"
+                ? "bg-accent-2"
+                : "bg-border",
+          )}
+        />
+        {node.periode}
+        {node.paagaaende && (
+          <span className="rounded-full bg-accent-2 px-2 py-0.5 font-medium text-foreground">
+            Nå
+          </span>
+        )}
+      </span>
+
+      <span
+        className={cn(
+          "mt-2 block text-pretty font-semibold tracking-display",
+          framtid && "text-lg",
+        )}
+      >
+        {node.tittel}
+      </span>
+      {node.organisasjon && (
+        <span className="block text-sm text-muted-foreground">
+          {node.organisasjon}
+        </span>
+      )}
+
+      {node.beskrivelse && (
+        <span className="mt-3 block text-pretty text-sm text-muted-foreground">
+          {node.beskrivelse}
+        </span>
+      )}
+
+      {node.medbrakt && node.medbrakt.length > 0 && (
+        <span className="mt-4 flex flex-wrap gap-1.5">
+          {node.medbrakt.map((ting) => (
+            <span key={ting} className="pille px-2.5">
+              {ting}
+            </span>
+          ))}
+        </span>
+      )}
+
+      {node.lenke && (
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+          {node.lenke.tekst}
+          <span aria-hidden>→</span>
+        </span>
+      )}
+
+      {/* Samme informasjon som pilene, i tekst – for smale skjermer og
+          skjermlesere, som ikke får noe ut av SVG-en. */}
+      {videre.length > 0 && (
+        <span className="mt-4 block text-xs text-accent lg:sr-only">
+          Førte videre til {videre.join(" og ")}
+        </span>
+      )}
+    </>
+  );
 
   return (
     <li
@@ -309,73 +409,23 @@ function NodeKort({
       className="relative"
       style={{ gridColumn: node.kolonne, gridRow: node.rad }}
     >
-      <button
-        type="button"
-        aria-pressed={aktiv}
-        onMouseEnter={() => onMarker(node.id)}
-        onFocus={() => onMarker(node.id)}
-        onBlur={() => onMarker(null)}
-        onClick={() => onMarker(aktiv ? null : node.id)}
-        className={cn(
-          // Kortene er innhold, ikke navigasjon – de får flata, ikke glasset.
-          "flate flex h-full w-full flex-col rounded-lg p-5 text-left",
-          "transition-[opacity,transform,box-shadow,border-color] duration-500 ease-mjuk",
-          framhevet ? "opacity-100" : "opacity-35",
-          aktiv &&
-            "-translate-y-1 border-accent/50 shadow-[0_16px_40px_hsl(var(--skygge)/0.55)]",
-        )}
-      >
-        <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span
-            aria-hidden
-            className={cn(
-              "h-1.5 w-1.5 rounded-full",
-              node.paagaaende
-                ? "bg-accent"
-                : node.type === "milepael"
-                  ? "bg-accent-2"
-                  : "bg-border",
-            )}
-          />
-          {node.periode}
-          {node.paagaaende && (
-            <span className="rounded-full bg-accent-2 px-2 py-0.5 font-medium text-foreground">
-              Nå
-            </span>
-          )}
-        </span>
-
-        <span className="mt-2 block text-pretty font-semibold tracking-display">
-          {node.tittel}
-        </span>
-        {node.organisasjon && (
-          <span className="block text-sm text-muted-foreground">
-            {node.organisasjon}
-          </span>
-        )}
-
-        <span className="mt-3 block text-pretty text-sm text-muted-foreground">
-          {node.beskrivelse}
-        </span>
-
-        {node.medbrakt && node.medbrakt.length > 0 && (
-          <span className="mt-4 flex flex-wrap gap-1.5">
-            {node.medbrakt.map((ting) => (
-              <span key={ting} className="pille px-2.5">
-                {ting}
-              </span>
-            ))}
-          </span>
-        )}
-
-        {/* Samme informasjon som pilene, i tekst – for smale skjermer og
-            skjermlesere, som ikke får noe ut av SVG-en. */}
-        {videre.length > 0 && (
-          <span className="mt-4 block text-xs text-accent lg:sr-only">
-            Førte videre til {videre.join(" og ")}
-          </span>
-        )}
-      </button>
+      {node.lenke ? (
+        // Framtidsstoppet er den eneste boksen som fører et sted – da skal den
+        // være en lenke, ikke en knapp som bare markerer seg selv.
+        <Link href={node.lenke.href} className={klasse} {...markering}>
+          {innhold}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          aria-pressed={aktiv}
+          onClick={() => onMarker(aktiv ? null : node.id)}
+          className={klasse}
+          {...markering}
+        >
+          {innhold}
+        </button>
+      )}
     </li>
   );
 }

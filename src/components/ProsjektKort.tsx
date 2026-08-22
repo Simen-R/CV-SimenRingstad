@@ -17,8 +17,8 @@ export function ProsjektKort({ prosjekt }: { prosjekt: Prosjekt }) {
         ))}
       </ul>
 
-      {/* Lenkene skyves ned, så kortene i rekka får samme bunnlinje. */}
-      <div className="mt-auto flex gap-4 pt-6 text-sm">
+      {/* Lenka skyves ned, så kortene i rekka får samme bunnlinje. */}
+      <div className="mt-auto flex flex-wrap items-baseline gap-x-5 gap-y-1 pt-6 text-sm">
         {prosjekt.demoUrl && (
           <a
             href={prosjekt.demoUrl}
@@ -29,15 +29,8 @@ export function ProsjektKort({ prosjekt }: { prosjekt: Prosjekt }) {
             Se live →
           </a>
         )}
-        {prosjekt.kodeUrl && (
-          <a
-            href={prosjekt.kodeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Kode
-          </a>
+        {prosjekt.demoNotat && (
+          <span className="text-muted-foreground">{prosjekt.demoNotat}</span>
         )}
       </div>
     </article>

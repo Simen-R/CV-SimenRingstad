@@ -15,7 +15,7 @@ export default function Kontakt() {
           Kontakt
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
-          Send meg gjerne en e-post – jeg svarer som regel samme dag.
+          Send meg gjerne en e-post. Jeg svarer som regel samme dag.
         </p>
       </FadeUp>
 

@@ -14,8 +14,8 @@ export default function Prosjekter() {
         Prosjekter
       </h1>
       <p className="mt-4 max-w-2xl text-pretty text-lg text-muted-foreground">
-        Hvert prosjekt her er noe jeg har bygget selv – med en kort forklaring
-        på hva problemet var og hvordan jeg løste det.
+        Hvert prosjekt her er noe jeg har bygget selv. Under står det kort hva
+        problemet var og hvordan jeg løste det.
       </p>
 
       <div className="mt-12 space-y-6">
@@ -48,16 +48,6 @@ export default function Prosjekter() {
                     className="rounded-full font-medium text-accent transition-opacity hover:opacity-80"
                   >
                     Se live →
-                  </a>
-                )}
-                {prosjekt.kodeUrl && (
-                  <a
-                    href={prosjekt.kodeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Se koden
                   </a>
                 )}
                 {prosjekt.demoNotat && (

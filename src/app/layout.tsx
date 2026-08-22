@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -7,12 +8,12 @@ import { profil } from "@/data/profil";
 
 export const metadata: Metadata = {
   title: {
-    default: `${profil.navn} – ${profil.tittel}`,
+    default: `${profil.navn} · ${profil.tittel}`,
     template: `%s · ${profil.navn}`,
   },
   description: profil.kortIngress,
   openGraph: {
-    title: `${profil.navn} – ${profil.tittel}`,
+    title: `${profil.navn} · ${profil.tittel}`,
     description: profil.kortIngress,
     locale: "nb_NO",
     type: "profile",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

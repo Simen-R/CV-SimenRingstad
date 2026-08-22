@@ -30,6 +30,13 @@ export type TidslinjePost = {
   stikkord?: string[];
 };
 
+/** En egenskap uten eksempel er bare et adjektiv, så `belegg` er påkrevd. */
+export type Egenskap = {
+  navn: string;
+  /** Én eller to setninger med det konkrete som ligger bak ordet. */
+  belegg: string;
+};
+
 export type FerdighetsGruppe = {
   navn: string;
   ferdigheter: Ferdighet[];
@@ -69,16 +76,18 @@ export type StiNode = {
   organisasjon?: string;
   /** Ferdig formatert, f.eks. "2018–2022" eller "2024–nå". */
   periode: string;
-  /** Én setning om hva dette var. */
-  beskrivelse: string;
-  type: "jobb" | "utdanning" | "milepael";
-  /** Plassen i diagrammet. Kolonne 1 er venstre, rad 1 er øverst (nåtid). */
+  /** Én setning om hva dette var. Kan utelates, f.eks. på framtidsstoppet. */
+  beskrivelse?: string;
+  type: "jobb" | "utdanning" | "milepael" | "framtid";
+  /** Plassen i diagrammet. Kolonne 1 er venstre, rad 1 er øverst. */
   kolonne: 1 | 2 | 3;
   rad: number;
   /** Merkes med «Nå» og får fylt prikk. */
   paagaaende?: boolean;
   /** Hva jeg tok med meg videre – to–tre korte uttrykk. */
   medbrakt?: string[];
+  /** Gjør kortet til en lenke i stedet for en markør. Brukes av framtidsstoppet. */
+  lenke?: { href: string; tekst: string };
   /** id-ene dette førte videre til. Det er disse pilene som tegnes. */
   ledetTil: string[];
 };

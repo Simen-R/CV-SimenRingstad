@@ -1,20 +1,12 @@
 import type { FerdighetsGruppe } from "@/types/cv";
 
-// Grupper uten `nivaa` vises som en enkel liste – bruk det til egenskaper og
-// annet som ikke lar seg måle på en skala. Nivå 1–5 der 3 = bruker det
-// selvstendig og 5 = kan lære det bort.
+// Grupper uten `nivaa` vises som en enkel liste. Bruk det til det som ikke
+// lar seg måle på en skala. Nivå 1 til 5, der 3 = bruker det selvstendig og
+// 5 = kan lære det bort.
+//
+// Egenskapene bor i `egenskaper.ts` og ikke her: de skal stå med eksempelet
+// bak seg, ikke som løse stikkord i et kort.
 export const ferdigheter: FerdighetsGruppe[] = [
-  {
-    navn: "Egenskaper",
-    ferdigheter: [
-      { navn: "Serviceinnstilt og kundeorientert" },
-      { navn: "Ryddig og ansvarsbevisst" },
-      { navn: "Gode samarbeidsevner" },
-      { navn: "Praktisk og løsningsorientert" },
-      { navn: "Punktlig og strukturert" },
-      { navn: "Teknologisk og teknisk interessert" },
-    ],
-  },
   {
     // Uten nivå med vilje: dette er stakken jeg har bygget i, ikke noe jeg
     // påstår å mestre alene ennå. Selvstendigheten hører hjemme i gruppa

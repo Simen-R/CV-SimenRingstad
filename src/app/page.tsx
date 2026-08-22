@@ -55,7 +55,7 @@ export default function Forside() {
 
       <Section
         tittel="Utvalgte prosjekter"
-        ingress="Ting jeg har bygget – fra idé til noe folk faktisk bruker."
+        ingress="Ting jeg har bygget, fra idé til noe folk faktisk bruker."
       >
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {fremhevedeProsjekter.map((prosjekt, indeks) => (

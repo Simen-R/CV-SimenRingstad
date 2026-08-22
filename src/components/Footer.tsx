@@ -49,8 +49,8 @@ export function Footer() {
           </svg>
         </summary>
         <p className="mt-4 max-w-prose text-xs leading-relaxed text-muted-foreground">
-          Denne siden bruker Vercel Web Analytics for anonym besøksstatistikk –
-          uten informasjonskapsler og uten sporing på tvers av nettsteder.
+          Denne siden bruker Vercel Web Analytics for anonym besøksstatistikk, uten
+          informasjonskapsler og uten sporing på tvers av nettsteder.
         </p>
       </details>
     </footer>

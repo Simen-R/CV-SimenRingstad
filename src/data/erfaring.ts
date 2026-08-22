@@ -15,7 +15,7 @@ export const erfaring: TidslinjePost[] = [
       "Teknisk ansvar i en tidligfase-startup, ved siden av studiet.",
     punkter: [
       "Kom inn som IT-arbeider gjennom mitt eget enkeltpersonforetak.",
-      "Ansatt som studentassistent gjennom SEFiO – Studentenes Entreprenørfond i Oslo.",
+      "Ansatt som studentassistent gjennom SEFiO, Studentenes Entreprenørfond i Oslo.",
       "Går inn i rollen som CTO fra september 2026.",
       "Bygger med AI-verktøy i det daglige.",
     ],
@@ -34,7 +34,7 @@ export const erfaring: TidslinjePost[] = [
     fra: "2024",
     til: "nå",
     beskrivelse:
-      "Del av Telia Personlig Service Crew – jeg besøker kunder for å levere og installere Telia-utstyr som TV-bokser og modem.",
+      "Del av Telia Personlig Service Crew. Jeg besøker kunder for å levere og installere Telia-utstyr som TV-bokser og modem.",
     stikkord: [
       "Teknisk kundeservice",
       "Feilsøking",
