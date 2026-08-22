@@ -18,56 +18,71 @@ export function Header() {
   const [apen, setApen] = useState(false);
 
   return (
-    <header className="no-print sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="font-semibold tracking-tight">
-          {profil.navn}
-        </Link>
+    <header className="no-print sticky top-0 z-50">
+      <div className="container relative pt-4 sm:pt-5">
+        <div className="glass flex h-16 items-center justify-between rounded-full pl-6 pr-3 sm:h-[4.5rem] sm:pl-7 sm:pr-4">
+          <Link
+            href="/"
+            className="rounded-full text-base font-semibold tracking-display sm:text-lg"
+          >
+            {profil.navn}
+          </Link>
 
-        <nav className="hidden gap-1 md:flex">
-          {navigasjon.map((punkt) => (
-            <Link
-              key={punkt.url}
-              href={punkt.url}
-              className={cn(
-                "rounded-md px-3 py-2 text-sm transition-colors hover:text-foreground",
-                pathname === punkt.url
-                  ? "text-foreground"
-                  : "text-muted-foreground",
-              )}
-            >
-              {punkt.navn}
-            </Link>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-1.5 md:flex">
+            {navigasjon.map((punkt) => {
+              const aktiv = pathname === punkt.url;
 
-        <button
-          type="button"
-          onClick={() => setApen((forrige) => !forrige)}
-          aria-expanded={apen}
-          aria-label="Meny"
-          className="rounded-md border border-border px-3 py-2 text-sm md:hidden"
-        >
-          Meny
-        </button>
-      </div>
+              return (
+                <Link
+                  key={punkt.url}
+                  href={punkt.url}
+                  aria-current={aktiv ? "page" : undefined}
+                  className={cn(
+                    "rounded-full px-5 py-2.5 text-[0.9375rem] transition-all duration-500 ease-mjuk",
+                    // Aktiv side får en egen kapsel – ikke bare en annen tekstfarge.
+                    aktiv
+                      ? "bg-accent-2 font-medium text-foreground"
+                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                  )}
+                >
+                  {punkt.navn}
+                </Link>
+              );
+            })}
+          </nav>
 
-      {apen && (
-        <nav className="border-t border-border/60 md:hidden">
-          <div className="container flex flex-col py-2">
+          <button
+            type="button"
+            onClick={() => setApen((forrige) => !forrige)}
+            aria-expanded={apen}
+            aria-label="Meny"
+            className="rounded-full border border-border/60 bg-muted/50 px-5 py-2.5 text-[0.9375rem] transition-colors hover:bg-muted md:hidden"
+          >
+            Meny
+          </button>
+        </div>
+
+        {apen && (
+          <nav className="glass mt-2.5 rounded-lg p-2 md:hidden">
             {navigasjon.map((punkt) => (
               <Link
                 key={punkt.url}
                 href={punkt.url}
                 onClick={() => setApen(false)}
-                className="py-2 text-sm text-muted-foreground hover:text-foreground"
+                aria-current={pathname === punkt.url ? "page" : undefined}
+                className={cn(
+                  "block rounded-md px-4 py-3 text-[0.9375rem] transition-colors",
+                  pathname === punkt.url
+                    ? "bg-accent-2 font-medium text-foreground"
+                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                )}
               >
                 {punkt.navn}
               </Link>
             ))}
-          </div>
-        </nav>
-      )}
+          </nav>
+        )}
+      </div>
     </header>
   );
 }

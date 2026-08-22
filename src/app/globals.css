@@ -3,31 +3,74 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+    ── Paletten ─────────────────────────────────────────────────────────────
+    Alt av farge bor i denne blokka, så en ny palett er ett bytte og ikke et
+    søk-og-erstatt.
+
+      Espresso        #4f3130   bakgrunn og dybde
+      Stormy Teal     #15616d   aksent – lenker, aktive tilstander
+      Papaya Whip     #ffecd1   all tekst
+    Tre farger, ingen flere.
+
+    Espresso er for lys til å være sidebakgrunn rått (L 25 %), så den er dratt
+    ned i dybden med hue og metning i behold. Stormy Teal finnes i to toner av
+    samme grunn: ren (--accent-2) gir bare 2,3:1 mot kortflata og holder derfor
+    kun som fyll bak Papaya Whip – der er den 6,3:1. Til tekst, lenker og ringer
+    er den lysnet så vidt det trengs: L 39 % er det mørkeste som klarer 4,5:1.
+  */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 20% 12%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 42%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 20% 12%;
-    --border: 220 13% 90%;
-    --primary: 222 47% 20%;
-    --primary-foreground: 0 0% 100%;
-    --accent: 199 89% 40%;
-    --radius: 0.75rem;
+    color-scheme: dark;
+
+    --background: 2 28% 6%;
+    --foreground: 35 100% 91%;
+
+    /* Flatene ligger et hakk over bakgrunnen – dybde, ikke ny farge. */
+    --surface: 3 22% 10%;
+    --card: 3 20% 13%;
+    --card-foreground: 35 100% 91%;
+
+    --muted: 4 16% 18%;
+    --muted-foreground: 34 32% 72%;
+
+    --border: 5 14% 25%;
+    --ring: 188 68% 39%;
+
+    --primary: 35 100% 91%;
+    --primary-foreground: 2 28% 7%;
+
+    /* Stormy Teal, lysnet akkurat nok til å bære tekst – #2095a7. */
+    --accent: 188 68% 39%;
+    --accent-foreground: 2 30% 8%;
+    /* Stormy Teal ren #15616d – fyll bak Papaya Whip, aldri tekst. */
+    --accent-2: 188 68% 25.5%;
+
+    /* Skygger må være varme her; en blå skygge biter mot Espresso. */
+    --skygge: 2 45% 2%;
+
+    --radius: 1rem;
   }
 
-  .dark {
-    --background: 222 24% 8%;
-    --foreground: 210 20% 96%;
-    --muted: 222 18% 15%;
-    --muted-foreground: 218 12% 65%;
-    --card: 222 22% 11%;
-    --card-foreground: 210 20% 96%;
-    --border: 222 16% 20%;
-    --primary: 210 20% 96%;
-    --primary-foreground: 222 24% 8%;
-    --accent: 199 89% 58%;
+  /* Lys palett ligger klar bak ett attributt: <html data-tema="lys">. Her går
+     Papaya Whip på papiret og Stormy Teal kan stå i sin rene tone. */
+  [data-tema="lys"] {
+    color-scheme: light;
+
+    --background: 36 100% 96%;
+    --foreground: 2 24% 16%;
+    --surface: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 2 24% 16%;
+    --muted: 35 62% 91%;
+    --muted-foreground: 2 14% 38%;
+    --border: 30 28% 84%;
+    --ring: 188 68% 28%;
+    --primary: 2 24% 20%;
+    --primary-foreground: 35 100% 95%;
+    --accent: 188 68% 25%;
+    --accent-foreground: 35 100% 95%;
+    --accent-2: 188 68% 25.5%;
+    --skygge: 2 30% 20%;
   }
 
   * {
@@ -42,26 +85,153 @@
   }
 
   ::selection {
-    @apply bg-accent/20;
+    @apply bg-accent/25;
+  }
+
+  /* Én fokusring på hele siden, i aksentfargen, med luft rundt. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 0.5rem);
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-balance tracking-display;
   }
 }
 
 @layer components {
-  /* Web-oversettelse av Liquid Glass: gjennomskinnelig flate som plukker opp
-     det som ligger bak, hårstrek-kant og et lyst toppanslag. */
+  /*
+    Web-oversettelse av Liquid Glass. Materialet hører til navigasjonslaget –
+    header, flytende knapperader – ikke til innholdet. Aldri glass oppå glass.
+  */
   .glass {
-    @apply border border-border/70 bg-card/70 shadow-sm;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: hsl(var(--surface) / 0.6);
+    border: 1px solid hsl(var(--border) / 0.7);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    /* Toppanslaget er kanten som fanger lys; skyggen løfter flata fra bakgrunnen. */
     box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.5),
-      0 1px 2px hsl(222 20% 12% / 0.05);
+      inset 0 1px 0 hsl(0 0% 100% / 0.08),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.2),
+      0 8px 32px hsl(var(--skygge) / 0.45);
   }
 
-  .dark .glass {
+  /* Uten backdrop-filter blir glasset gjennomsiktig og teksten uleselig –
+     da tetter vi flata i stedet. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background: hsl(var(--surface) / 0.94);
+    }
+  }
+
+  [data-tema="lys"] .glass,
+  [data-tema="lys"] .knapp-glass {
+    background: hsl(0 0% 100% / 0.72);
     box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.06),
-      0 1px 2px hsl(0 0% 0% / 0.3);
+      inset 0 1px 0 hsl(0 0% 100% / 0.6),
+      0 8px 28px hsl(var(--skygge) / 0.08);
+  }
+
+  /*
+    Innholdslaget: kort, paneler, lister. Samme familie som glasset, men en
+    tett flate med et svakt forløp i stedet for uskarphet – billigere å tegne
+    og lesbar oppå gløden.
+  */
+  .flate {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border) / 0.6);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.05),
+      0 1px 2px hsl(var(--skygge) / 0.4);
+  }
+
+  [data-tema="lys"] .flate {
+    background: hsl(var(--card));
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.8),
+      0 1px 2px hsl(var(--skygge) / 0.05);
+  }
+
+  /* Kort som svarer på pekeren: løfter seg litt og lar kanten ta farge. */
+  .flate-interaktiv {
+    transition:
+      transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+      border-color 0.3s ease-out,
+      box-shadow 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .flate-interaktiv:hover,
+  .flate-interaktiv:focus-visible {
+    transform: translateY(-2px);
+    border-color: hsl(var(--accent) / 0.4);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.07),
+      0 12px 32px hsl(var(--skygge) / 0.5);
+  }
+
+  [data-tema="lys"] .flate-interaktiv:hover,
+  [data-tema="lys"] .flate-interaktiv:focus-visible {
+    box-shadow: 0 12px 28px hsl(var(--skygge) / 0.1);
+  }
+
+  /* Stikkord og perioder: kapselform, halve høyden som radius. */
+  .pille {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
+    background: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Primærhandling – Papaya Whip fylt, med Espresso som tekst. Den eneste
+     fylte knappen på en side; aksenten holder seg til lenker og tilstander. */
+  .knapp-primar {
+    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 4px 14px hsl(var(--skygge) / 0.5);
+    transition:
+      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .knapp-primar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px hsl(var(--skygge) / 0.6);
+  }
+
+  /* Sekundærhandling – glass, ingen tint. */
+  .knapp-glass {
+    @apply glass inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
+    transition:
+      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+      background-color 0.3s ease-out;
+  }
+
+  .knapp-glass:hover {
+    transform: translateY(-1px);
+    background: hsl(var(--surface) / 0.85);
+  }
+
+  [data-tema="lys"] .knapp-glass:hover {
+    background: hsl(0 0% 100% / 0.9);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flate-interaktiv,
+    .knapp-primar,
+    .knapp-glass {
+      transition: none;
+    }
+
+    .flate-interaktiv:hover,
+    .flate-interaktiv:focus-visible,
+    .knapp-primar:hover,
+    .knapp-glass:hover {
+      transform: none;
+    }
   }
 }
 
@@ -112,5 +282,17 @@
   body {
     background: #fff;
     color: #000;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  .glass,
+  .flate {
+    background: #fff;
+    border-color: #ddd;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 }

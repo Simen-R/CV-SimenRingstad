@@ -51,6 +51,8 @@ export type Prosjekt = {
   rolle: string;
   teknologier: string[];
   demoUrl?: string;
+  /** Kort notat som vises ved demo-lenka, f.eks. tilgangskode. */
+  demoNotat?: string;
   kodeUrl?: string;
   bildeUrl?: string;
   /** Løftes fram på forsiden. */
@@ -83,7 +85,7 @@ export type StiNode = {
 
 export type StiInnhold = {
   tittel: string;
-  ingress: string;
+  ingress?: string;
   /** Rekkefølgen her er lesarekkefølgen på smale skjermer: nyeste først. */
   noder: StiNode[];
 };

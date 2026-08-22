@@ -16,26 +16,27 @@ export const ferdigheter: FerdighetsGruppe[] = [
     ],
   },
   {
-    // TODO: Disse nivåene er ikke hentet fra CV-en – sett dem selv, og slett
-    // det du ikke faktisk har brukt. Fire på tre ting er mer troverdig enn
-    // fem på ti.
-    navn: "Teknisk",
+    // Uten nivå med vilje: dette er stakken jeg har bygget i, ikke noe jeg
+    // påstår å mestre alene ennå. Selvstendigheten hører hjemme i gruppa
+    // under, der den faktisk kan etterprøves.
+    navn: "Bygget med",
     ferdigheter: [
-      { navn: "TypeScript", nivaa: 3 },
-      { navn: "React", nivaa: 3 },
-      { navn: "Next.js", nivaa: 3 },
-      { navn: "HTML & CSS", nivaa: 3 },
-      { navn: "Git & GitHub", nivaa: 3 },
+      { navn: "TypeScript" },
+      { navn: "React" },
+      { navn: "Next.js" },
+      { navn: "HTML & CSS" },
     ],
   },
   {
     // Verktøynavn framfor kategori: «Claude Code» kan etterprøves i en samtale,
-    // «AI» kan ikke. Nivåene er anslag – juster dem selv.
+    // «AI» kan ikke. Dette er den sterkeste gruppa – Claude Code er verktøyet
+    // som er brukt daglig gjennom hele dette prosjektet.
     navn: "Verktøy og arbeidsmåte",
     ferdigheter: [
-      { navn: "Claude Code", nivaa: 4 },
+      { navn: "Claude Code", nivaa: 5 },
       { navn: "AI-assistert utvikling", nivaa: 4 },
-      { navn: "Prompting og kontekststyring", nivaa: 3 },
+      { navn: "Prompting og kontekststyring", nivaa: 4 },
+      { navn: "Git & GitHub", nivaa: 3 },
       { navn: "Gjennomgang av AI-generert kode", nivaa: 3 },
     ],
   },

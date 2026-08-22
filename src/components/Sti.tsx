@@ -214,13 +214,15 @@ export function Sti({ innhold }: { innhold: StiInnhold }) {
   };
 
   return (
-    <section className="container py-16 sm:py-24">
-      <p className="text-sm font-medium tracking-wide text-accent">
+    <section className="container py-12 sm:py-16">
+      <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">
         {innhold.tittel}
       </p>
-      <p className="mt-3 max-w-2xl text-pretty text-lg text-muted-foreground">
-        {innhold.ingress}
-      </p>
+      {innhold.ingress && (
+        <p className="mt-3 max-w-2xl text-pretty text-lg text-muted-foreground">
+          {innhold.ingress}
+        </p>
+      )}
 
       <div
         ref={containerRef}
@@ -234,28 +236,6 @@ export function Sti({ innhold }: { innhold: StiInnhold }) {
             viewBox={`0 0 ${flate.bredde} ${flate.hoyde}`}
             fill="none"
           >
-            <defs>
-              <linearGradient
-                id="sti-forlop"
-                gradientUnits="userSpaceOnUse"
-                x1="0"
-                y1={flate.hoyde}
-                x2="0"
-                y2="0"
-              >
-                <stop
-                  offset="0%"
-                  stopColor="hsl(var(--accent))"
-                  stopOpacity="0.7"
-                />
-                <stop
-                  offset="100%"
-                  stopColor="hsl(var(--accent))"
-                  stopOpacity="0.3"
-                />
-              </linearGradient>
-            </defs>
-
             {koblinger.map((kobling, indeks) => {
               const framhevet =
                 !aktiv || aktiv === kobling.fra || aktiv === kobling.til;
@@ -265,7 +245,7 @@ export function Sti({ innhold }: { innhold: StiInnhold }) {
                   key={`${kobling.fra}-${kobling.til}`}
                   className="transition-opacity duration-300 ease-out"
                   opacity={framhevet ? 1 : 0.12}
-                  stroke="url(#sti-forlop)"
+                  stroke="hsl(var(--accent))"
                   strokeWidth={aktiv && framhevet ? 2.25 : 1.5}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -337,11 +317,12 @@ function NodeKort({
         onBlur={() => onMarker(null)}
         onClick={() => onMarker(aktiv ? null : node.id)}
         className={cn(
-          "glass flex h-full w-full flex-col rounded-lg p-5 text-left",
-          "transition-[opacity,transform,box-shadow] duration-500 ease-mjuk",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-          framhevet ? "opacity-100" : "opacity-40",
-          aktiv && "-translate-y-0.5 shadow-lg",
+          // Kortene er innhold, ikke navigasjon – de får flata, ikke glasset.
+          "flate flex h-full w-full flex-col rounded-lg p-5 text-left",
+          "transition-[opacity,transform,box-shadow,border-color] duration-500 ease-mjuk",
+          framhevet ? "opacity-100" : "opacity-35",
+          aktiv &&
+            "-translate-y-1 border-accent/50 shadow-[0_16px_40px_hsl(var(--skygge)/0.55)]",
         )}
       >
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -352,13 +333,13 @@ function NodeKort({
               node.paagaaende
                 ? "bg-accent"
                 : node.type === "milepael"
-                  ? "bg-accent/40"
+                  ? "bg-accent-2"
                   : "bg-border",
             )}
           />
           {node.periode}
           {node.paagaaende && (
-            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-accent">
+            <span className="rounded-full bg-accent-2 px-2 py-0.5 font-medium text-foreground">
               Nå
             </span>
           )}
@@ -380,10 +361,7 @@ function NodeKort({
         {node.medbrakt && node.medbrakt.length > 0 && (
           <span className="mt-4 flex flex-wrap gap-1.5">
             {node.medbrakt.map((ting) => (
-              <span
-                key={ting}
-                className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground"
-              >
+              <span key={ting} className="pille px-2.5">
                 {ting}
               </span>
             ))}

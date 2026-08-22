@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 export default function Ferdigheter() {
   return (
     <div className="container py-16">
-      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h1 className="text-4xl font-semibold tracking-stor sm:text-5xl">
         Ferdigheter
       </h1>
-      <p className="mt-3 max-w-2xl text-muted-foreground">
-        Der det står et nivå, sier det hvor selvstendig jeg jobber med tingen –
-        ikke hvor mange år jeg har på papiret.
+      <p className="mt-4 max-w-2xl text-pretty text-lg text-muted-foreground">
+        Nivåene sier hvor selvstendig jeg jobber, og står bare der jeg kan vise
+        det. «Bygget med» er teknologiene jeg har levert prosjekter i.
       </p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

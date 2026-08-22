@@ -15,15 +15,17 @@ export function Section({
   className,
 }: SectionProps) {
   return (
-    <section className={cn("py-12", className)}>
+    <section className={cn("py-14 sm:py-16", className)}>
       <div className="container">
-        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2 className="text-3xl font-semibold tracking-stor sm:text-4xl">
           {tittel}
         </h2>
         {ingress && (
-          <p className="mt-3 max-w-2xl text-muted-foreground">{ingress}</p>
+          <p className="mt-3 max-w-2xl text-pretty text-muted-foreground">
+            {ingress}
+          </p>
         )}
-        <div className="mt-8">{children}</div>
+        <div className="mt-10">{children}</div>
       </div>
     </section>
   );

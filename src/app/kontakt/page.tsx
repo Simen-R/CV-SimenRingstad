@@ -11,7 +11,7 @@ export default function Kontakt() {
   return (
     <div className="container py-16">
       <FadeUp>
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h1 className="text-4xl font-semibold tracking-stor sm:text-5xl">
           Kontakt
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
@@ -21,22 +21,22 @@ export default function Kontakt() {
 
       <FadeUp delay={120}>
         <ul className="mt-10 max-w-xl space-y-4">
-          <li className="rounded-lg border border-border bg-card p-5">
+          <li className="flate flate-interaktiv rounded-lg p-5">
             <p className="text-sm text-muted-foreground">E-post</p>
             <a
               href={`mailto:${profil.epost}`}
-              className="mt-1 block text-lg font-medium hover:underline"
+              className="mt-1 block rounded-md text-lg font-medium transition-colors hover:text-accent"
             >
               {profil.epost}
             </a>
           </li>
 
           {profil.telefon && (
-            <li className="rounded-lg border border-border bg-card p-5">
+            <li className="flate flate-interaktiv rounded-lg p-5">
               <p className="text-sm text-muted-foreground">Telefon</p>
               <a
                 href={`tel:${profil.telefon.replace(/\s/g, "")}`}
-                className="mt-1 block text-lg font-medium hover:underline"
+                className="mt-1 block rounded-md text-lg font-medium transition-colors hover:text-accent"
               >
                 {profil.telefon}
               </a>
@@ -44,16 +44,13 @@ export default function Kontakt() {
           )}
 
           {profil.lenker.map((lenke) => (
-            <li
-              key={lenke.url}
-              className="rounded-lg border border-border bg-card p-5"
-            >
+            <li key={lenke.url} className="flate flate-interaktiv rounded-lg p-5">
               <p className="text-sm text-muted-foreground">{lenke.navn}</p>
               <a
                 href={lenke.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 block text-lg font-medium hover:underline"
+                className="mt-1 block rounded-md text-lg font-medium transition-colors hover:text-accent"
               >
                 {lenke.url.replace(/^https?:\/\//, "")}
               </a>

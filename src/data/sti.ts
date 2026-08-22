@@ -9,8 +9,6 @@ import type { StiInnhold } from "@/types/cv";
 // på /erfaring, og stien skal fortelle én historie, ikke liste alt.
 export const sti: StiInnhold = {
   tittel: "Veien hit",
-  ingress:
-    "Jeg begynte med fagbrev i helse. Det jeg gjør i dag – to jobber og et studium – står på det jeg lærte der.",
 
   noder: [
     {

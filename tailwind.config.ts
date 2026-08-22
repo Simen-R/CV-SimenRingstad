@@ -32,14 +32,19 @@ const config: Config = {
       // SF strammer sporingen selv på store grader; her hermer vi det.
       letterSpacing: {
         display: "-0.022em",
+        // Store titler tåler enda strammere sporing enn brødtekst-displayet.
+        stor: "-0.035em",
       },
       transitionTimingFunction: {
         mjuk: "cubic-bezier(0.32, 0.72, 0, 1)",
       },
       colors: {
         border: "hsl(var(--border))",
+        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        // Flata mellom bakgrunn og kort – bærer glasset.
+        surface: "hsl(var(--surface))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -51,6 +56,7 @@ const config: Config = {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          2: "hsl(var(--accent-2))",
         },
         card: {
           DEFAULT: "hsl(var(--card))",
@@ -58,9 +64,12 @@ const config: Config = {
         },
       },
       borderRadius: {
+        // Konsentriske radier: barnet er foreldrenes radius minus luft.
+        "2xl": "calc(var(--radius) + 8px)",
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 6px)",
+        sm: "calc(var(--radius) - 10px)",
       },
     },
   },

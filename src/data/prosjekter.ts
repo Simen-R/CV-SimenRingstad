@@ -23,6 +23,8 @@ export const prosjekter: Prosjekt[] = [
     aar: "2026",
     rolle: "Utvikler – idé, logikk og grensesnitt",
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS"],
+    demoUrl: "https://pris-kalkulator.vercel.app/",
+    demoNotat: "Tilgangskode: 2222",
     kodeUrl: "https://github.com/Simen-R/Pris-kalkulator",
     fremhevet: true,
   },

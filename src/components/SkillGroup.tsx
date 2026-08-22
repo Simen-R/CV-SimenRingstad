@@ -10,9 +10,9 @@ const NIVAA_TEKST: Record<number, string> = {
 
 export function SkillGroup({ gruppe }: { gruppe: FerdighetsGruppe }) {
   return (
-    <div className="glass rounded-lg p-6">
-      <h3 className="text-lg font-semibold tracking-display">{gruppe.navn}</h3>
-      <ul className="mt-4 space-y-3">
+    <div className="flate h-full rounded-lg p-6">
+      <h3 className="text-lg font-semibold">{gruppe.navn}</h3>
+      <ul className="mt-5 space-y-3.5">
         {gruppe.ferdigheter.map((ferdighet) =>
           // Uten nivå er det en egenskap, ikke noe som kan måles på en skala.
           ferdighet.nivaa === undefined ? (

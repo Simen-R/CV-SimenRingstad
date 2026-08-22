@@ -17,7 +17,7 @@ export const erfaring: TidslinjePost[] = [
       "Kom inn som IT-arbeider gjennom mitt eget enkeltpersonforetak.",
       "Ansatt som studentassistent gjennom SEFiO – Studentenes Entreprenørfond i Oslo.",
       "Går inn i rollen som CTO fra september 2026.",
-      "Bygger med AI-verktøy i det daglige – særlig Claude Code – og går gjennom det som blir foreslått før det går videre.",
+      "Bygger med AI-verktøy i det daglige.",
     ],
     stikkord: [
       "Teknisk ledelse",
