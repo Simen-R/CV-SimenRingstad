@@ -17,19 +17,6 @@ export type Lenke = {
   url: string;
 };
 
-/** Brukes av både erfaring og utdanning – samme tidslinje-form. */
-export type TidslinjePost = {
-  id: string;
-  tittel: string;
-  organisasjon: string;
-  sted?: string;
-  fra: string; // "2024-08" eller "2024"
-  til: string | "nå";
-  beskrivelse: string;
-  punkter?: string[];
-  stikkord?: string[];
-};
-
 /** En egenskap uten eksempel er bare et adjektiv, så `belegg` er påkrevd. */
 export type Egenskap = {
   navn: string;
@@ -72,29 +59,50 @@ export type Prosjekt = {
 export type StiNode = {
   id: string;
   tittel: string;
-  /** Utelates for milepæler som ikke hører til et sted, f.eks. et fagbrev. */
+  /** Utelates for milepæler som ikke hører til et sted. */
   organisasjon?: string;
   /** Ferdig formatert, f.eks. "2018–2022" eller "2024–nå". */
   periode: string;
-  /** Én setning om hva dette var. Kan utelates, f.eks. på framtidsstoppet. */
+  /** Én setning om hva dette var. */
   beskrivelse?: string;
-  type: "jobb" | "utdanning" | "milepael" | "framtid";
-  /** Plassen i diagrammet. Kolonne 1 er venstre, rad 1 er øverst. */
-  kolonne: 1 | 2 | 3;
-  rad: number;
-  /** Merkes med «Nå» og får fylt prikk. */
+  /** Hvilken side av ryggraden stoppet står på. */
+  spor: "arbeid" | "skole";
+  /** Fyller noden på ryggraden og farger linja gjennom raden. */
   paagaaende?: boolean;
-  /** Hva jeg tok med meg videre – to–tre korte uttrykk. */
+  /** Hva jeg tok med meg videre, to eller tre korte uttrykk. */
   medbrakt?: string[];
-  /** Gjør kortet til en lenke i stedet for en markør. Brukes av framtidsstoppet. */
+
+  /*
+    Feltene under vises først når kortet er åpnet. Har noden ingen av dem, er
+    kortet en vanlig boks uten knappefakter.
+  */
+
+  /** Det som ikke fikk plass i den ene setningen på det lukkede kortet. */
+  utdyping?: string;
+  /** Konkrete ting fra rollen, to til fire punkter. */
+  punkter?: string[];
+  /** Ferdighetene rollen viste. Hold deg til fire. */
+  stikkord?: string[];
+  /** Lenke ut, for eksempel til studieprogrammet. Står nederst i det åpne kortet. */
   lenke?: { href: string; tekst: string };
-  /** id-ene dette førte videre til. Det er disse pilene som tegnes. */
-  ledetTil: string[];
 };
 
 export type StiInnhold = {
   tittel: string;
   ingress?: string;
-  /** Rekkefølgen her er lesarekkefølgen på smale skjermer: nyeste først. */
+  /** Står til høyre for overskriften, f.eks. "2018–nå". */
+  spenn?: string;
+  /** Etikettene over de to sporene. */
+  spor: { arbeid: string; skole: string };
+  /**
+   * Stoppet som ikke er tatt ennå. Det står midtstilt over ryggraden og er det
+   * eneste kortet som fører et sted, så det har ikke noe spor.
+   */
+  nesteStopp?: {
+    merkelapp: string;
+    tittel: string;
+    lenke: { href: string; tekst: string };
+  };
+  /** Nyeste først. Rekkefølgen her er rekkefølgen nedover ryggraden. */
   noder: StiNode[];
 };

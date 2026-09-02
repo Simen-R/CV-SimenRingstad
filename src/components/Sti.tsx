@@ -1,431 +1,172 @@
-"use client";
-
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { StiInnhold, StiNode } from "@/types/cv";
 import { cn } from "@/lib/utils";
-
-type Retning = "opp" | "venstre" | "hoyre";
-
-type Kobling = {
-  fra: string;
-  til: string;
-  d: string;
-  pil: string;
-};
-
-type Boks = {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  cx: number;
-};
-
-/** Liten glippe mellom kortkanten og streken, så pilene ikke klistrer seg. */
-const LUFT = 4;
-
-function maalBoks(container: HTMLElement, id: string): Boks | null {
-  const element = container.querySelector<HTMLElement>(`[data-sti="${id}"]`);
-  if (!element) return null;
-
-  const ytre = container.getBoundingClientRect();
-  const indre = element.getBoundingClientRect();
-  const x1 = indre.left - ytre.left;
-  const x2 = indre.right - ytre.left;
-
-  return {
-    x1,
-    x2,
-    y1: indre.top - ytre.top,
-    y2: indre.bottom - ytre.top,
-    cx: Math.round((x1 + x2) / 2),
-  };
-}
-
-/** Pilspissen: en liten vinkel som peker inn i kortet linja ender i. */
-function pilspiss(x: number, y: number, retning: Retning) {
-  const bredde = 5.5;
-  const dybde = 7;
-
-  if (retning === "opp") {
-    return `M ${x - bredde} ${y + dybde} L ${x} ${y} L ${x + bredde} ${y + dybde}`;
-  }
-  if (retning === "venstre") {
-    return `M ${x + dybde} ${y - bredde} L ${x} ${y} L ${x + dybde} ${y + bredde}`;
-  }
-  return `M ${x - dybde} ${y - bredde} L ${x} ${y} L ${x - dybde} ${y + bredde}`;
-}
+import { StoppKort } from "@/components/StiKort";
 
 /**
- * Rettvinklet rute mellom to kort – som i et flytskjema, ikke som en bue.
- * Tre tilfeller: rett opp i samme kolonne, rett bortover i samme rad, og
- * albuen (opp, bortover, opp igjen) når kortene står på skrå for hverandre.
+ * Veien hit, tegnet som en ryggrad: én loddrett linje ned midten, arbeid til
+ * venstre og skole til høyre. Radene som pågår nå farger sitt eget stykke av
+ * linja, så nåtida skiller seg ut uten at noe trenger en merkelapp.
+ *
+ * Under lg finnes ikke de to kolonnene. Da flytter ryggraden seg ut i
+ * venstrekanten, alle kortene stiller seg opp til høyre for den, og sporet
+ * står som tekst på hvert kort i stedet for som en kolonne.
+ *
+ * Rutenettet trenger ingen oppmåling, så alt utenom selve kortene rendres på
+ * serveren. Kortene som kan foldes ut ligger i StiKort.tsx.
  */
-function rutt(fra: Boks, til: Boks) {
-  const sammeKolonne = Math.abs(fra.cx - til.cx) < 4;
-  const sammeRad = fra.y1 < til.y2 - 8 && til.y1 < fra.y2 - 8;
-
-  if (sammeKolonne && til.y2 <= fra.y1) {
-    const x = til.cx;
-    const slutt = til.y2 + LUFT;
-    return {
-      d: `M ${x} ${fra.y1 - LUFT} L ${x} ${slutt}`,
-      pil: pilspiss(x, slutt, "opp"),
-    };
-  }
-
-  if (sammeRad) {
-    const y = Math.round(
-      (Math.max(fra.y1, til.y1) + Math.min(fra.y2, til.y2)) / 2,
-    );
-
-    if (til.x1 >= fra.x2) {
-      const slutt = til.x1 - LUFT;
-      return {
-        d: `M ${fra.x2 + LUFT} ${y} L ${slutt} ${y}`,
-        pil: pilspiss(slutt, y, "hoyre"),
-      };
-    }
-
-    const slutt = til.x2 + LUFT;
-    return {
-      d: `M ${fra.x1 - LUFT} ${y} L ${slutt} ${y}`,
-      pil: pilspiss(slutt, y, "venstre"),
-    };
-  }
-
-  const sx = fra.cx;
-  const sy = fra.y1 - LUFT;
-  const tx = til.cx;
-  const ty = til.y2 + LUFT;
-  const midt = Math.round((sy + ty) / 2);
-  const mot = Math.sign(tx - sx) || 1;
-  const r = Math.max(
-    0,
-    Math.min(16, Math.abs(tx - sx) / 2, sy - midt, midt - ty),
-  );
-
-  return {
-    d: [
-      `M ${sx} ${sy}`,
-      `L ${sx} ${midt + r}`,
-      `Q ${sx} ${midt} ${sx + mot * r} ${midt}`,
-      `L ${tx - mot * r} ${midt}`,
-      `Q ${tx} ${midt} ${tx} ${midt - r}`,
-      `L ${tx} ${ty}`,
-    ].join(" "),
-    pil: pilspiss(tx, ty, "opp"),
-  };
-}
-
 export function Sti({ innhold }: { innhold: StiInnhold }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [flate, setFlate] = useState({ bredde: 0, hoyde: 0 });
-  const [koblinger, setKoblinger] = useState<Kobling[]>([]);
-  const [tegnet, setTegnet] = useState(false);
-  const [aktiv, setAktiv] = useState<string | null>(null);
-
-  const navn = useMemo(() => {
-    const oppslag = new Map<string, string>();
-    // Framtidsstoppet står først i lesarekkefølgen uansett, så «førte videre
-    // til»-teksten skal ikke gjenta det rett under.
-    for (const node of innhold.noder) {
-      if (node.type !== "framtid") oppslag.set(node.id, node.tittel);
-    }
-    return oppslag;
-  }, [innhold.noder]);
-
-  // Pilene tegnes ut fra hvor kortene faktisk havnet, så de må måles opp på
-  // nytt hver gang bredden endrer seg.
-  const maalOpp = useCallback(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const ytre = container.getBoundingClientRect();
-    setFlate({ bredde: ytre.width, hoyde: ytre.height });
-
-    // Diagrammet forutsetter rutenettet. Under lg står kortene i én kolonne,
-    // og der forteller kortene i stedet med tekst hva de førte videre til.
-    if (!window.matchMedia("(min-width: 1024px)").matches) {
-      setKoblinger([]);
-      return;
-    }
-
-    const nye: Kobling[] = [];
-    for (const node of innhold.noder) {
-      const fra = maalBoks(container, node.id);
-      if (!fra) continue;
-
-      for (const tilId of node.ledetTil) {
-        const til = maalBoks(container, tilId);
-        if (!til) continue;
-
-        nye.push({ fra: node.id, til: tilId, ...rutt(fra, til) });
-      }
-    }
-    setKoblinger(nye);
-  }, [innhold.noder]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    maalOpp();
-
-    const observer = new ResizeObserver(maalOpp);
-    observer.observe(container);
-
-    // Webfonter kan endre korthøydene etter første måling.
-    document.fonts?.ready.then(maalOpp).catch(() => {});
-
-    return () => observer.disconnect();
-  }, [maalOpp]);
-
-  // Pilene tegner seg først når seksjonen er på skjermen.
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setTegnet(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([oppslag]) => {
-        if (oppslag.isIntersecting) {
-          setTegnet(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -15% 0px" },
-    );
-
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
-
-  /** Er dette kortet en del av det som er markert akkurat nå? */
-  const erFramhevet = (id: string) => {
-    if (!aktiv || aktiv === id) return true;
-
-    const markert = innhold.noder.find((node) => node.id === aktiv);
-    if (markert?.ledetTil.includes(id)) return true;
-
-    return innhold.noder.some(
-      (node) => node.id === id && node.ledetTil.includes(aktiv),
-    );
-  };
-
   return (
-    <section className="container py-12 sm:py-16">
-      <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">
-        {innhold.tittel}
-      </p>
+    <section className="container py-14 sm:py-16">
+      <div className="flex items-baseline justify-between gap-6 border-b border-border/70 pb-5">
+        <h2 className="text-2xl font-semibold tracking-stor sm:text-3xl">
+          {innhold.tittel}
+        </h2>
+        {innhold.spenn && (
+          <p className="shrink-0 font-mono text-xs uppercase tracking-[0.05em] text-svak">
+            {innhold.spenn}
+          </p>
+        )}
+      </div>
+
       {innhold.ingress && (
-        <p className="mt-3 max-w-2xl text-pretty text-lg text-muted-foreground">
+        <p className="mt-5 max-w-2xl text-pretty text-muted-foreground">
           {innhold.ingress}
         </p>
       )}
 
+      {/* Spor-etikettene hører til kolonnene, så de følger dem ut av layouten. */}
       <div
-        ref={containerRef}
-        className={cn("relative mt-12", tegnet && "sti-tegnet")}
-        onMouseLeave={() => setAktiv(null)}
+        aria-hidden
+        className="mt-9 hidden grid-cols-[1fr_100px_1fr] items-baseline lg:grid"
       >
-        {flate.bredde > 0 && koblinger.length > 0 && (
-          <svg
-            aria-hidden
-            className="pointer-events-none absolute inset-0 h-full w-full"
-            viewBox={`0 0 ${flate.bredde} ${flate.hoyde}`}
-            fill="none"
-          >
-            {koblinger.map((kobling, indeks) => {
-              const framhevet =
-                !aktiv || aktiv === kobling.fra || aktiv === kobling.til;
+        <p className="text-right font-mono text-[11px] uppercase tracking-[0.1em] text-svak">
+          {innhold.spor.arbeid}
+        </p>
+        <span />
+        <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-svak">
+          {innhold.spor.skole}
+        </p>
+      </div>
 
-              return (
-                <g
-                  key={`${kobling.fra}-${kobling.til}`}
-                  className="transition-opacity duration-300 ease-out"
-                  opacity={framhevet ? 1 : 0.12}
-                  stroke="hsl(var(--accent))"
-                  strokeWidth={aktiv && framhevet ? 2.25 : 1.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path
-                    className="sti-linje"
-                    style={{ transitionDelay: `${indeks * 90}ms` }}
-                    d={kobling.d}
-                    pathLength={1}
-                  />
-                  <path
-                    className="sti-pil"
-                    style={{ transitionDelay: `${indeks * 90 + 650}ms` }}
-                    d={kobling.pil}
-                  />
-                </g>
-              );
-            })}
-          </svg>
-        )}
+      {innhold.nesteStopp && <NesteStopp stopp={innhold.nesteStopp} />}
 
-        <h2 className="sr-only">Veien hit, stopp for stopp</h2>
+      <ol>
+        {innhold.noder.map((node) => (
+          <Rad key={node.id} node={node} spor={innhold.spor} />
+        ))}
+      </ol>
 
-        {/* Rutenettet er kartet: kolonne og rad ligger på hver node. På smale
-            skjermer faller det tilbake til én kolonne, nyeste først. */}
-        <ul className="relative flex flex-col gap-4 lg:grid lg:auto-rows-fr lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
-          {innhold.noder.map((node) => (
-            <NodeKort
-              key={node.id}
-              node={node}
-              framhevet={erFramhevet(node.id)}
-              aktiv={aktiv === node.id}
-              navn={navn}
-              onMarker={setAktiv}
-            />
-          ))}
-        </ul>
+      {/* Halen: linja tones ut nederst i stedet for å stoppe brått. */}
+      <div className="flex justify-start lg:justify-center">
+        <span
+          aria-hidden
+          className="h-7 w-px bg-gradient-to-b from-border to-transparent"
+        />
       </div>
     </section>
   );
 }
 
-function NodeKort({
-  node,
-  framhevet,
-  aktiv,
-  navn,
-  onMarker,
+/**
+ * Stoppet som ikke er tatt ennå. Det eneste kortet som fører et sted, og det
+ * eneste som står stiplet: en boks som venter på å fylles.
+ */
+function NesteStopp({
+  stopp,
 }: {
-  node: StiNode;
-  framhevet: boolean;
-  aktiv: boolean;
-  navn: Map<string, string>;
-  onMarker: (id: string | null) => void;
+  stopp: NonNullable<StiInnhold["nesteStopp"]>;
 }) {
-  const videre = node.ledetTil
-    .map((id) => navn.get(id))
-    .filter((tittel): tittel is string => Boolean(tittel));
-  const framtid = node.type === "framtid";
-
-  const klasse = cn(
-    // Kortene er innhold, ikke navigasjon – de får flata, ikke glasset.
-    "flate flex h-full w-full flex-col rounded-lg p-5 text-left",
-    "transition-[opacity,transform,box-shadow,border-color] duration-500 ease-mjuk",
-    framhevet ? "opacity-100" : "opacity-35",
-    // Stoppet som ikke er tatt ennå står stiplet – en boks som venter på å fylles.
-    framtid && "border-dashed border-accent/45",
-    aktiv &&
-      "-translate-y-1 border-accent/50 shadow-[0_16px_40px_hsl(var(--skygge)/0.55)]",
-  );
-
-  // Samme markering enten kortet er en knapp eller en lenke.
-  const markering = {
-    onMouseEnter: () => onMarker(node.id),
-    onFocus: () => onMarker(node.id),
-    onBlur: () => onMarker(null),
-  };
-
-  const innhold = (
-    <>
-      <span
-        className={cn(
-          "flex items-center gap-2 text-xs",
-          framtid ? "font-medium text-accent" : "text-muted-foreground",
-        )}
+  return (
+    <div className="mt-8 border-l border-dashed border-accent/45 pb-9 pl-7 lg:mt-9 lg:flex lg:flex-col lg:items-center lg:border-l-0 lg:pb-0 lg:pl-0">
+      <Link
+        href={stopp.lenke.href}
+        className="block w-full rounded-lg border border-dashed border-accent/50 bg-accent/5 p-5 transition-colors duration-300 hover:border-accent/80 hover:bg-accent/10 lg:max-w-[360px] lg:text-center"
       >
-        <span
-          aria-hidden
-          className={cn(
-            "h-1.5 w-1.5 rounded-full",
-            node.paagaaende || framtid
-              ? "bg-accent"
-              : node.type === "milepael"
-                ? "bg-accent-2"
-                : "bg-border",
-          )}
-        />
-        {node.periode}
-        {node.paagaaende && (
-          <span className="rounded-full bg-accent-2 px-2 py-0.5 font-medium text-foreground">
-            Nå
-          </span>
-        )}
-      </span>
-
-      <span
-        className={cn(
-          "mt-2 block text-pretty font-semibold tracking-display",
-          framtid && "text-lg",
-        )}
-      >
-        {node.tittel}
-      </span>
-      {node.organisasjon && (
-        <span className="block text-sm text-muted-foreground">
-          {node.organisasjon}
-        </span>
-      )}
-
-      {node.beskrivelse && (
-        <span className="mt-3 block text-pretty text-sm text-muted-foreground">
-          {node.beskrivelse}
-        </span>
-      )}
-
-      {node.medbrakt && node.medbrakt.length > 0 && (
-        <span className="mt-4 flex flex-wrap gap-1.5">
-          {node.medbrakt.map((ting) => (
-            <span key={ting} className="pille px-2.5">
-              {ting}
-            </span>
-          ))}
-        </span>
-      )}
-
-      {node.lenke && (
-        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-          {node.lenke.tekst}
+        <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+          {stopp.merkelapp}
+        </p>
+        <p className="mt-2 text-lg font-medium tracking-display">
+          {stopp.tittel}
+        </p>
+        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+          {stopp.lenke.tekst}
           <span aria-hidden>→</span>
         </span>
-      )}
-
-      {/* Samme informasjon som pilene, i tekst – for smale skjermer og
-          skjermlesere, som ikke får noe ut av SVG-en. */}
-      {videre.length > 0 && (
-        <span className="mt-4 block text-xs text-accent lg:sr-only">
-          Førte videre til {videre.join(" og ")}
-        </span>
-      )}
-    </>
+      </Link>
+      <span
+        aria-hidden
+        className="hidden h-9 w-px bg-gradient-to-b from-accent/55 to-accent/25 lg:block"
+      />
+    </div>
   );
+}
+
+function Rad({
+  node,
+  spor,
+}: {
+  node: StiNode;
+  spor: StiInnhold["spor"];
+}) {
+  const tilVenstre = node.spor === "arbeid";
 
   return (
     <li
-      data-sti={node.id}
-      className="relative"
-      style={{ gridColumn: node.kolonne, gridRow: node.rad }}
-    >
-      {node.lenke ? (
-        // Framtidsstoppet er den eneste boksen som fører et sted – da skal den
-        // være en lenke, ikke en knapp som bare markerer seg selv.
-        <Link href={node.lenke.href} className={klasse} {...markering}>
-          {innhold}
-        </Link>
-      ) : (
-        <button
-          type="button"
-          aria-pressed={aktiv}
-          onClick={() => onMarker(aktiv ? null : node.id)}
-          className={klasse}
-          {...markering}
-        >
-          {innhold}
-        </button>
+      className={cn(
+        // Under lg er ryggraden venstrekanten på selve raden. Da kan hver rad
+        // farge sitt eget stykke av linja uten noe ekstra element.
+        "relative border-l py-4 pl-7",
+        "lg:grid lg:grid-cols-[1fr_100px_1fr] lg:border-l-0 lg:py-0 lg:pl-0",
+        node.paagaaende ? "border-accent/40" : "border-border",
       )}
+    >
+      {/* Noden på ryggraden, smal utgave. Sitter på høyde med perioden. */}
+      <span
+        aria-hidden
+        className={cn(
+          "absolute -left-px top-11 h-2 w-2 -translate-x-1/2 rounded-[2px] lg:hidden",
+          node.paagaaende ? "bg-accent" : "border border-svak/70 bg-background",
+        )}
+      />
+
+      {/* Midtkolonnen: ryggrad, node og streken bort til kortet. */}
+      <div
+        aria-hidden
+        className="hidden lg:relative lg:col-start-2 lg:row-start-1 lg:block"
+      >
+        <span
+          className={cn(
+            "absolute inset-y-0 left-1/2 w-px",
+            node.paagaaende ? "bg-accent/40" : "bg-border",
+          )}
+        />
+        <span
+          className={cn(
+            "absolute left-1/2 top-12 h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-[2px]",
+            node.paagaaende
+              ? "bg-accent"
+              : "border border-svak/70 bg-background",
+          )}
+        />
+        <span
+          className={cn(
+            "absolute top-12 h-px bg-border",
+            tilVenstre ? "left-0 right-1/2" : "left-1/2 right-0",
+          )}
+        />
+      </div>
+
+      <div
+        className={cn(
+          "lg:row-start-1 lg:flex lg:py-5",
+          tilVenstre
+            ? "lg:col-start-1 lg:justify-end"
+            : "lg:col-start-3 lg:justify-start",
+        )}
+      >
+        <StoppKort node={node} spor={spor} tilVenstre={tilVenstre} />
+      </div>
     </li>
   );
 }

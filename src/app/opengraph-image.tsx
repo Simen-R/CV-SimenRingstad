@@ -18,11 +18,11 @@ export default function DelingsBilde() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 80,
-          color: "#ffecd1",
-          // Espresso med Stormy Teal som en glød nede til høyre. Gløden ligger
-          // med vilje motsatt av monogrammet: med teal i samme hjørne forsvant
-          // kanten på ikonflata inn i bakgrunnen.
-          backgroundImage: "linear-gradient(130deg, #140b0b 42%, #16343a 100%)",
+          color: "#fafafa",
+          // Marineblå med en lysere blåtone som glød nede til høyre, samme bunn
+          // som forsiden. Gløden ligger med vilje motsatt av monogrammet: i
+          // samme hjørne ville den spist kanten på den hvite ikonflata.
+          backgroundImage: "linear-gradient(130deg, #0d1321 45%, #24344a 100%)",
         }}
       >
         <div style={{ display: "flex", width: 104, height: 104 }}>
@@ -34,7 +34,7 @@ export default function DelingsBilde() {
             style={{
               fontSize: 76,
               letterSpacing: -2.7,
-              WebkitTextStroke: "1.4px #ffecd1",
+              WebkitTextStroke: "1.4px #fafafa",
             }}
           >
             {profil.navn}
@@ -44,7 +44,7 @@ export default function DelingsBilde() {
               marginTop: 14,
               fontSize: 32,
               letterSpacing: -0.6,
-              color: "#cebba1",
+              color: "#b3b3bc",
             }}
           >
             {profil.tittel}
@@ -58,10 +58,10 @@ export default function DelingsBilde() {
               height: 10,
               marginRight: 14,
               borderRadius: 5,
-              backgroundColor: "#2095a7",
+              backgroundColor: "#ffffff",
             }}
           />
-          <div style={{ color: "#cebba1" }}>cv-simen-ringstad.vercel.app</div>
+          <div style={{ color: "#b3b3bc" }}>cv-simen-ringstad.vercel.app</div>
         </div>
       </div>
     ),

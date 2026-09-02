@@ -28,8 +28,7 @@ npm run dev
 | Hva du vil endre            | Fil                        |
 | --------------------------- | -------------------------- |
 | Navn, tittel, om meg, lenker | `src/data/profil.ts`      |
-| Jobber og verv              | `src/data/erfaring.ts`     |
-| Skole og studier            | `src/data/utdanning.ts`    |
+| Jobb, skole og fagbrev      | `src/data/sti.ts`          |
 | Teknologier og språk        | `src/data/ferdigheter.ts`  |
 | Prosjekter                  | `src/data/prosjekter.ts`   |
 
@@ -46,7 +45,6 @@ src/
 │   ├── layout.tsx        # Felles ramme: header, footer, metadata
 │   ├── page.tsx          # Forside
 │   ├── globals.css       # Fargevariabler og grunnstiler
-│   ├── erfaring/         # Jobb + utdanning på samme tidslinje
 │   ├── prosjekter/
 │   ├── ferdigheter/
 │   └── kontakt/
@@ -55,7 +53,8 @@ src/
 │   ├── Footer.tsx
 │   ├── Section.tsx       # Seksjon med overskrift og ingress
 │   ├── FadeUp.tsx        # Fader inn innhold ved scroll
-│   ├── Timeline.tsx      # Tidslinje for erfaring og utdanning
+│   ├── Sti.tsx           # «Veien hit»: ryggraden med jobb og skole
+│   ├── StiKort.tsx       # Kortene på stien, med detaljene som foldes ut
 │   ├── SkillGroup.tsx    # Ferdighetsgruppe med nivåindikator
 │   └── ProsjektKort.tsx
 ├── data/                 # ALT innhold – her redigerer du

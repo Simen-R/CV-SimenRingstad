@@ -21,17 +21,18 @@ export function Monogram({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // De samme tre fargene som resten av siden: Stormy Teal øverst,
-        // Espresso i dybden, Papaya Whip på bokstavene.
-        backgroundImage: "linear-gradient(135deg, #15616d 0%, #4f3130 100%)",
+        // Hvit flate og marineblå bokstaver. Snudd vei av resten av siden med
+        // vilje: et lyst ikon finner seg selv i en fanerad, et mørkt forsvinner.
+        // Forløpet er så vidt kjølig, så flata ikke blir en blank hvit firkant.
+        backgroundImage: "linear-gradient(135deg, #ffffff 0%, #dfe6f2 100%)",
         borderRadius: storrelse * avrunding,
-        color: "#ffecd1",
+        color: "#0d1321",
         fontSize: storrelse * 0.5,
         letterSpacing: sporing,
         // Satori legger sporinga også etter siste bokstav, så teksten havner
         // et halvt hakk til høyre. Denne henter den tilbake til midten.
         paddingRight: -sporing,
-        WebkitTextStroke: `${storrelse * 0.039}px #ffecd1`,
+        WebkitTextStroke: `${storrelse * 0.039}px #0d1321`,
       }}
     >
       SR

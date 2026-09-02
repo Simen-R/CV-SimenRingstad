@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/Header";
+import { Lampe } from "@/components/Lampe";
 import { Footer } from "@/components/Footer";
 import { profil } from "@/data/profil";
 
@@ -38,7 +39,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="nb">
-      <body className="flex min-h-screen flex-col">
+      {/* Lampa henger på toppen av dokumentet, så body må være ankeret. */}
+      <body className="relative flex min-h-screen flex-col">
+        <Lampe />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

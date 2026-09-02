@@ -9,22 +9,6 @@ raskt å skjønne hva du kan.
   første folk leser. Unngå «engasjert og motivert»; skriv heller hva du faktisk bygger.
 - **lenker** – GitHub og LinkedIn holder. Ta bare med det som viser noe.
 
-## erfaring.ts
-
-Nyeste jobb øverst. For hver post:
-
-- **beskrivelse** – én setning om hva rollen gikk ut på.
-- **punkter** – to–fire konkrete ting du fikk til. Tall gjør dem sterkere:
-  «kuttet behandlingstiden fra 10 til 3 minutter» slår «jobbet med effektivisering».
-- **stikkord** – ferdigheter rollen viste. Hold deg til fire–fem.
-
-Datoformat: `"2024"` eller `"2024-08"`. Pågående roller får `til: "nå"`.
-
-## utdanning.ts
-
-Samme form som erfaring. Ta med relevante emner under `punkter` hvis du er tidlig i
-karrieren – da veier de mer.
-
 ## ferdigheter.ts
 
 Nivå 1–5 der 3 = «jobber selvstendig med det» og 5 = «kan lære det bort».
@@ -35,29 +19,37 @@ Sertifiseringer) ved å legge til et objekt i lista.
 
 ## sti.ts
 
-Grepet øverst på forsiden, tegnet som et flytskjema: hver boks har en fast plass i et
-rutenett, og pilene mellom dem tegnes automatisk ut fra `ledetTil`.
+«Veien hit» på forsiden, og det eneste stedet jobb og skole står. Stien er tegnet som
+en ryggrad: én loddrett linje ned midten, arbeid til venstre og skole til høyre.
 
-- **noder** – ett objekt per boks, nyeste først. Rekkefølgen her er lesarekkefølgen på
-  smale skjermer; på brede skjermer er det `kolonne` og `rad` som bestemmer plassen.
-- **kolonne** (1–3) og **rad** (1 = nåtid, høyere tall = lenger tilbake) – posisjonen i
-  rutenettet. To bokser kan ikke dele samme rute. Trenger du en rad til, gi den neste
-  ledige radnummeret; rutenettet vokser av seg selv.
-- **ledetTil** – `id`-ene denne boksen peker videre på. Pila finner selv formen: rett opp
-  i samme kolonne, rett bortover i samme rad, ellers en albue (opp, bortover, opp igjen).
-  En boks kan peke på flere, og flere kan peke på samme.
-- **type** – `jobb`, `utdanning` eller `milepael`. Styrer bare prikken foran perioden.
-- **organisasjon** – kan utelates for milepæler som ikke hører til et sted, som et fagbrev.
-- **medbrakt** – to–tre korte uttrykk for hva du tok med deg. Dette er hele poenget med
-  seksjonen: «Ro under press» sier mer enn «helsefagarbeider» alene gjør. Kan utelates.
+- **noder** – ett objekt per boks, nyeste først. Rekkefølgen her er rekkefølgen
+  nedover ryggraden, både på brede og smale skjermer.
+- **spor** – `arbeid` eller `skole`. Bestemmer hvilken side av linja boksen står på.
+- **paagaaende: true** – fyller noden på ryggraden og farger linja gjennom raden. Alt
+  som pågår nå ligger øverst, så fargen henger sammen.
+- **periode** – ferdig formatert tekst, som `"2018–2022"`, `"2024–nå"` eller
+  `"Høst 2023"`. Ingen datologikk å forholde seg til.
+- **organisasjon** – kan utelates for milepæler som ikke hører til et sted, som et
+  fagbrev.
 - **beskrivelse** – én setning. Boksene skal kunne leses på tvers i ett blikk.
+- **medbrakt** – to–tre korte uttrykk for hva du tok med deg. «Ro under press» sier
+  mer enn «helsefagarbeider» alene gjør. Kan utelates.
 
-Stien er en fortelling, ikke en full liste – sesongjobber og kortvarige roller hører
-hjemme på /erfaring, ikke her.
+De fire siste feltene er CV-innholdet, og de vises først når noen trykker på boksen:
 
-Under 1024 px faller rutenettet sammen til én kolonne, og da slås pilene av – ellers
-ville de krysset tvers over kortene. Koblingen går i stedet fram av teksten «Førte videre
-til …», som ligger på kortene og bare skjules visuelt på brede skjermer.
+- **utdyping** – det som ikke fikk plass i den ene setningen på det lukkede kortet.
+  Ikke gjenta beskrivelsen med andre ord.
+- **punkter** – to til fire konkrete ting du fikk til. Tall gjør dem sterkere:
+  «kuttet behandlingstiden fra 10 til 3 minutter» slår «jobbet med effektivisering».
+- **stikkord** – ferdighetene rollen viste. Hold deg til fire.
+- **lenke** – `{ href, tekst }` til noe utenfor siden, som studieprogrammet hos
+  OsloMet. Står nederst i det åpne kortet og åpnes i ny fane. Kan utelates.
+
+Har en node ingen av de fire, blir kortet en vanlig boks uten noe å åpne. Det er greit
+for skolestoppene, der perioden og én setning er hele historien.
+
+Under 1024 px finnes ikke de to kolonnene. Da flytter ryggraden seg ut i venstrekanten,
+alle kortene stiller seg opp til høyre for den, og sporet står som tekst på hvert kort.
 
 ## prosjekter.ts
 

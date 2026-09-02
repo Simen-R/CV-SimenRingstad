@@ -70,6 +70,8 @@ const config: Config = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
+        // Trinnet under muted-foreground: perioder, spor-etiketter, meta.
+        svak: "hsl(var(--svak))",
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",

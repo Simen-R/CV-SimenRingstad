@@ -8,69 +8,96 @@
     Alt av farge bor i denne blokka, så en ny palett er ett bytte og ikke et
     søk-og-erstatt.
 
-      Espresso        #4f3130   bakgrunn og dybde
-      Stormy Teal     #15616d   aksent – lenker, aktive tilstander
-      Papaya Whip     #ffecd1   all tekst
-    Tre farger, ingen flere.
+      Marineblå       #0d1321   bakgrunn
+      Stål            #1a2732   kort og paneler
+      Snø             #fafafa   all tekst
+      Hvit            #ffffff   aksent
 
-    Espresso er for lys til å være sidebakgrunn rått (L 25 %), så den er dratt
-    ned i dybden med hue og metning i behold. Stormy Teal finnes i to toner av
-    samme grunn: ren (--accent-2) gir bare 2,3:1 mot kortflata og holder derfor
-    kun som fyll bak Papaya Whip – der er den 6,3:1. Til tekst, lenker og ringer
-    er den lysnet så vidt det trengs: L 39 % er det mørkeste som klarer 4,5:1.
+    Boksene løftes ut av bunnen med lyshet og en liten dreining mot kaldt, og
+    ikke med en ny kulør. Hue 208 mot bunnens 222 er nok til at flata leses som
+    stål og ikke bare som mer marineblått.
+
+    Aksenten er hvit og ligger bare to hakk over --foreground, så den bærer
+    ingenting alene. Det er plasseringa som gjør en hvit strek til en aksent,
+    ikke tonen: full styrke der teksten er dempet, fylte flater, stiplede
+    kanter, piler.
+
+    Grått finnes i to trinn: --muted-foreground til brødtekst og --svak til
+    perioder og etiketter. Begge står nøytrale, utenfor det blå. Mot den
+    marineblå bunnen gir hvit 18,7:1, teksten 17,8:1 og --svak 5,7:1. Mot
+    stålflata er tallene 15,2:1, 14,6:1 og 4,7:1. Vil du ha tydeligere skille
+    mellom bunn og bokser, skru lysheten på --card opp. Den står på 15 % og
+    tåler opp til rundt 20 % før --svak faller under 4,5:1.
   */
   :root {
     color-scheme: dark;
 
-    --background: 2 28% 6%;
-    --foreground: 35 100% 91%;
+    --background: 222 45% 9%;
+    --foreground: 0 0% 98%;
 
-    /* Flatene ligger et hakk over bakgrunnen – dybde, ikke ny farge. */
-    --surface: 3 22% 10%;
-    --card: 3 20% 13%;
-    --card-foreground: 35 100% 91%;
+    /*
+      Navigasjonslaget holder seg i blått. Glasset i headeren skal leses som en
+      del av bunnen, ikke som enda en boks.
+    */
+    --surface: 222 40% 13%;
+    --card: 208 32% 15%;
+    --card-foreground: 0 0% 98%;
 
-    --muted: 4 16% 18%;
-    --muted-foreground: 34 32% 72%;
+    --muted: 222 30% 17%;
+    --muted-foreground: 240 6% 72%;
+    /* Perioder, spor-etiketter og annen meta. Dempet, men fortsatt lesbar. */
+    --svak: 240 4% 57%;
 
-    --border: 5 14% 25%;
-    --ring: 188 68% 39%;
+    --border: 222 25% 24%;
+    --ring: 0 0% 100%;
 
-    --primary: 35 100% 91%;
-    --primary-foreground: 2 28% 7%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 222 45% 9%;
 
-    /* Stormy Teal, lysnet akkurat nok til å bære tekst – #2095a7. */
-    --accent: 188 68% 39%;
-    --accent-foreground: 2 30% 8%;
-    /* Stormy Teal ren #15616d – fyll bak Papaya Whip, aldri tekst. */
-    --accent-2: 188 68% 25.5%;
+    /* Ren hvit, to hakk over teksten. */
+    --accent: 0 0% 100%;
+    --accent-foreground: 222 45% 9%;
+    /* Løftet flate til fyll bak lys tekst. Hvit ville blitt hvit på hvit. */
+    --accent-2: 222 28% 24%;
 
-    /* Skygger må være varme her; en blå skygge biter mot Espresso. */
-    --skygge: 2 45% 2%;
+    /* Bunnen er nesten svart i blått, så skyggene må være det også. */
+    --skygge: 222 50% 2%;
+
+    /* Lyset fra lampa under headeren. Kaldt hvitt med en dråpe blått i seg,
+       så det leser som en lyskilde og ikke som enda en hvit flate.
+       --lampe-styrke skrur hele lampa opp og ned i ett tak. */
+    --lampe: 205 100% 90%;
+    --lampe-styrke: 1;
 
     --radius: 1rem;
   }
 
-  /* Lys palett ligger klar bak ett attributt: <html data-tema="lys">. Her går
-     Papaya Whip på papiret og Stormy Teal kan stå i sin rene tone. */
+  /* Lys palett ligger klar bak ett attributt: <html data-tema="lys">. Her snus
+     aksenten: på papir er det blekket som er aksenten, ikke det hvite. */
   [data-tema="lys"] {
     color-scheme: light;
 
-    --background: 36 100% 96%;
-    --foreground: 2 24% 16%;
+    --background: 40 30% 98%;
+    --foreground: 240 8% 10%;
     --surface: 0 0% 100%;
     --card: 0 0% 100%;
-    --card-foreground: 2 24% 16%;
-    --muted: 35 62% 91%;
-    --muted-foreground: 2 14% 38%;
-    --border: 30 28% 84%;
-    --ring: 188 68% 28%;
-    --primary: 2 24% 20%;
-    --primary-foreground: 35 100% 95%;
-    --accent: 188 68% 25%;
-    --accent-foreground: 35 100% 95%;
-    --accent-2: 188 68% 25.5%;
-    --skygge: 2 30% 20%;
+    --card-foreground: 240 8% 10%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 240 5% 38%;
+    --svak: 240 4% 48%;
+    --border: 40 12% 86%;
+    --ring: 240 8% 12%;
+    --primary: 240 8% 12%;
+    --primary-foreground: 0 0% 98%;
+    --accent: 240 8% 12%;
+    --accent-foreground: 0 0% 100%;
+    --accent-2: 240 8% 20%;
+    --skygge: 240 20% 20%;
+
+    /* På papir kan ikke lys være lysere enn arket. Da blir kjegla en kjølig
+       dis i stedet, dempet til under halv styrke. */
+    --lampe: 222 35% 55%;
+    --lampe-styrke: 0.4;
   }
 
   * {
@@ -177,6 +204,64 @@
     box-shadow: 0 12px 28px hsl(var(--skygge) / 0.1);
   }
 
+  /*
+    Lampa under headeren. Kjeglene er koniske gradienter, symmetriske rundt
+    rett ned: 135° til 225° for den vide, 152° til 208° for kjerna. Kantene får
+    et par tiendedeler av spennet på å tone inn, ellers står de som knivskarpe
+    stråler.
+
+    Spissen ligger med vilje over boksen, på 50% -5rem. Lå den i kanten, ville
+    alle strålene møtes i ett punkt og laget en spiss pigg i stedet for lys.
+    Nå er kjegla allerede bred når den kommer inn i bildet, og pæra dekker
+    resten.
+
+    Maska er det som gjør det til lys og ikke til en trekant. Den lar kjegla
+    dø ut mot bunnen, så lyset tar slutt et sted uten å ha en nedre kant.
+  */
+  .lampe {
+    opacity: var(--lampe-styrke);
+  }
+
+  .lampe-kjegle {
+    background: conic-gradient(
+      from 135deg at 50% -5rem,
+      transparent 0deg,
+      hsl(var(--lampe) / 0.1) 18deg,
+      hsl(var(--lampe) / 0.13) 45deg,
+      hsl(var(--lampe) / 0.1) 72deg,
+      transparent 90deg
+    );
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 12%, transparent 88%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 12%, transparent 88%);
+  }
+
+  .lampe-kjerne {
+    background: conic-gradient(
+      from 152deg at 50% -4rem,
+      transparent 0deg,
+      hsl(var(--lampe) / 0.2) 10deg,
+      hsl(var(--lampe) / 0.2) 46deg,
+      transparent 56deg
+    );
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 72%);
+    mask-image: linear-gradient(to bottom, #000, transparent 72%);
+  }
+
+  .lampe-gloed {
+    background: hsl(var(--lampe) / 0.32);
+  }
+
+  /* Selve pæra: streken langs underkanten av pilla, tonet ut i begge ender. */
+  .lampe-pare {
+    background: linear-gradient(
+      to right,
+      transparent,
+      hsl(var(--lampe) / 0.9) 35%,
+      hsl(var(--lampe) / 0.9) 65%,
+      transparent
+    );
+  }
+
   /* Stikkord og perioder: kapselform, halve høyden som radius. */
   .pille {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
@@ -185,8 +270,9 @@
     border: 1px solid hsl(var(--border) / 0.5);
   }
 
-  /* Primærhandling – Papaya Whip fylt, med Espresso som tekst. Den eneste
-     fylte knappen på en side; aksenten holder seg til lenker og tilstander. */
+  /* Primærhandling: snøhvit flate med marineblå tekst. Den eneste fylte
+     knappen på en side, så aksenten ellers holder seg til lenker og
+     tilstander. */
   .knapp-primar {
     @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
     background: hsl(var(--primary));
@@ -252,41 +338,12 @@
     }
   }
 
-  /* Linjene på stien tegner seg opp når seksjonen kommer til syne.
-     pathLength={1} i SVG-en gjør at 1 = hele lengden, uansett kurve. */
-  .sti-linje {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    transition:
-      stroke-dashoffset 1.1s cubic-bezier(0.32, 0.72, 0, 1),
-      opacity 0.4s ease-out,
-      stroke-width 0.3s ease-out;
-  }
-
-  .sti-tegnet .sti-linje {
-    stroke-dashoffset: 0;
-  }
-
-  /* Pilspissen kommer etter at streken har rukket fram. */
-  .sti-pil {
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
-  }
-
-  .sti-tegnet .sti-pil {
-    opacity: 1;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sti-linje {
-      stroke-dashoffset: 0;
-      transition: opacity 0.2s ease-out;
-    }
-
-    .sti-pil {
-      opacity: 1;
-      transition: none;
-    }
+  /* Merkelappene på stien: samme kapselform som .pille, men uten fyll, så de
+     ikke konkurrerer med kortflata de ligger på. */
+  .sti-merke {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[11px];
+    color: hsl(var(--svak));
+    border: 1px solid hsl(var(--border) / 0.7);
   }
 }
 
@@ -304,11 +361,22 @@
     display: none;
   }
 
+  /* Lampa er skjerm-pynt. På papir er det bare et grått felt bak teksten. */
+  .lampe {
+    display: none !important;
+  }
+
   .glass,
   .flate {
     background: #fff;
     border-color: #ddd;
     box-shadow: none;
     backdrop-filter: none;
+  }
+
+  /* På skjerm er detaljene på stien lukket til noen trykker. På papir finnes
+     ikke trykket, så alt brettes ut. */
+  .sti-detaljer {
+    grid-template-rows: 1fr !important;
   }
 }
