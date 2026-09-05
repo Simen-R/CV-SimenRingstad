@@ -54,7 +54,7 @@ export const prosjekter: Prosjekt[] = [
     aar: "2026",
     rolle: "Utvikler med ansvar for arkitektur, datamodell og innhold",
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code"],
-    kodeUrl: "https://github.com/Simen-R/CV-SimenRingsatd",
+    kodeUrl: "https://github.com/Simen-R/CV-SimenRingstad",
     fremhevet: true,
   },
 ];
