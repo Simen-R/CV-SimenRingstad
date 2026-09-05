@@ -4,8 +4,8 @@ import type { StiInnhold } from "@/types/cv";
 // venstre side og skole på høyre. Rekkefølgen i lista er rekkefølgen nedover,
 // nyeste først, så et nytt stopp legges bare inn på riktig plass.
 //
-// Alt som pågår nå (Snartup, Telia og studiet) ligger øverst og farger linja
-// gjennom sine rader. Under der er linja grå.
+// Alt som pågår nå (Snartup, eget foretak, Telia og studiet) ligger øverst og
+// farger linja gjennom sine rader. Under der er linja grå.
 //
 // Hvert stopp har to lag. Det lukkede kortet er fortellinga: én setning, og to
 // eller tre merkelapper for hva jeg tok med meg. Åpner du kortet, kommer
@@ -48,6 +48,21 @@ export const sti: StiInnhold = {
         "Selvstendig næringsdrivende",
         "Startup",
       ],
+    },
+    {
+      // Samleplassen for oppdrag jeg tar utenfor Snartup. Står uten punkter
+      // inntil videre, så her legges oppdragene inn etter hvert som de kommer.
+      // TODO: sjekk årstallet mot da foretaket faktisk ble registrert.
+      id: "eget-foretak",
+      tittel: "Selvstendig webutvikler",
+      organisasjon: "Eget enkeltpersonforetak",
+      periode: "2026–nå",
+      beskrivelse: "Webutvikling på oppdrag ved siden av studiet og jobben.",
+      spor: "arbeid",
+      paagaaende: true,
+      utdyping:
+        "Foretaket jeg tar egne oppdrag gjennom. Det var også veien inn til Snartup.",
+      stikkord: ["Webutvikling", "Egne kunder", "Selvstendig næringsdrivende"],
     },
     {
       id: "telia",
