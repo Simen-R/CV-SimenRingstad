@@ -78,10 +78,10 @@ function NesteStopp({
   stopp: NonNullable<StiInnhold["nesteStopp"]>;
 }) {
   return (
-    <div className="mt-8 border-l border-dashed border-accent/45 pb-9 pl-7 lg:mt-9 lg:flex lg:flex-col lg:items-center lg:border-l-0 lg:pb-0 lg:pl-0">
+    <div className="mt-8 border-l border-dashed border-accent/45 pb-9 pl-7 pr-6 sm:pr-0 lg:mt-9 lg:flex lg:flex-col lg:items-center lg:border-l-0 lg:pb-0 lg:pl-0">
       <Link
         href={stopp.lenke.href}
-        className="block w-full rounded-lg border border-dashed border-accent/50 bg-accent/5 p-5 transition-colors duration-300 hover:border-accent/80 hover:bg-accent/10 lg:max-w-[360px] lg:text-center"
+        className="block w-full rounded-lg border border-dashed border-accent/50 bg-accent/5 p-4 transition-colors duration-300 hover:border-accent/80 hover:bg-accent/10 sm:p-5 lg:max-w-[360px] lg:text-center"
       >
         <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
           {stopp.merkelapp}
@@ -115,8 +115,10 @@ function Rad({
     <li
       className={cn(
         // Under lg er ryggraden venstrekanten på selve raden. Da kan hver rad
-        // farge sitt eget stykke av linja uten noe ekstra element.
-        "relative border-l py-4 pl-7",
+        // farge sitt eget stykke av linja uten noe ekstra element. På telefon
+        // holder pr-6 kortet unna skjermkanten, så det ikke går fra kant til
+        // kant.
+        "relative border-l py-4 pl-7 pr-6 sm:pr-0",
         "lg:grid lg:grid-cols-[1fr_100px_1fr] lg:border-l-0 lg:py-0 lg:pl-0",
         node.paagaaende ? "border-accent/40" : "border-border",
       )}
@@ -125,7 +127,9 @@ function Rad({
       <span
         aria-hidden
         className={cn(
-          "absolute -left-px top-11 h-2 w-2 -translate-x-1/2 rounded-[2px] lg:hidden",
+          // top følger perioden på kortet, som flytter seg når innpaddingen
+          // krymper på telefon.
+          "absolute -left-px top-10 h-2 w-2 -translate-x-1/2 rounded-[2px] sm:top-11 lg:hidden",
           node.paagaaende ? "bg-accent" : "border border-svak/70 bg-background",
         )}
       />

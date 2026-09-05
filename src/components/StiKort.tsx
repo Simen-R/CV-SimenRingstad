@@ -39,7 +39,7 @@ export function StoppKort({
     return (
       <div
         className={cn(
-          "flate w-full rounded-lg p-5 lg:max-w-[400px]",
+          "flate w-full rounded-lg p-4 sm:p-5 lg:max-w-[400px]",
           tilVenstre && "lg:text-right",
         )}
       >
@@ -59,7 +59,7 @@ export function StoppKort({
         tilVenstre && "lg:text-right",
       )}
     >
-      <div className="relative p-5">
+      <div className="relative p-4 sm:p-5">
         <Sammendrag
           node={node}
           spor={spor}
@@ -93,7 +93,7 @@ export function StoppKort({
         {/* Lukket er innholdet null piksler høyt, men fortsatt i DOM-en.
             `inert` holder det utenfor tabbing og skjermlesere så lenge. */}
         <div className="overflow-hidden" inert={!apen}>
-          <div className="border-t border-border/50 px-5 pb-5 pt-4">
+          <div className="border-t border-border/50 px-4 pb-4 pt-3.5 sm:px-5 sm:pb-5 sm:pt-4">
             {node.utdyping && (
               <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
                 {node.utdyping}

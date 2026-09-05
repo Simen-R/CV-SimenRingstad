@@ -4,7 +4,7 @@ export const profil: Profil = {
   navn: "Simen Ringstad",
   tittel: "Student i anvendt datateknologi ved OsloMet",
   kortIngress:
-    "Helsefagarbeider som ble teknolog. Jeg tar en bachelor i anvendt datateknologi, samtidig som jeg er CTO i Snartup og jobber med teknisk kundeservice i Telia.",
+    "Helsefagarbeideren som ble teknolog. Jeg tar en bachelor i anvendt datateknologi, samtidig som jeg er CTO i Snartup og jobber med teknisk kundeservice i Telia.",
   // Gateadressen fra PDF-en er med vilje utelatt – den hører hjemme i søknaden,
   // ikke på en åpen nettside.
   sted: "Oslo, Norge",

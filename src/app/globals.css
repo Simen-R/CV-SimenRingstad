@@ -262,6 +262,21 @@
     );
   }
 
+  /*
+    Sjarken «Lykken» i heroen. Originalen er hvit strek på nesten svart, så
+    den ligger her som maske og ikke som bilde: alfakanalen i PNG-en sier hvor
+    det skal tegnes, og fargen kommer herfra. Da følger streken paletten av
+    seg selv, hvit mot marineblå og blekk mot papir, og vi slipper å holde to
+    filer i sync. Vil du dempe eller løfte den, er det alfaverdien under som
+    er skruen.
+  */
+  .sjark {
+    aspect-ratio: 1400 / 854;
+    background-color: hsl(var(--foreground) / 0.7);
+    -webkit-mask: url("/bilder/sjark.png") center / contain no-repeat;
+    mask: url("/bilder/sjark.png") center / contain no-repeat;
+  }
+
   /* Stikkord og perioder: kapselform, halve høyden som radius. */
   .pille {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
@@ -361,8 +376,10 @@
     display: none;
   }
 
-  /* Lampa er skjerm-pynt. På papir er det bare et grått felt bak teksten. */
-  .lampe {
+  /* Lampa og sjarken er skjerm-pynt. På papir blir lampa bare et grått felt
+     bak teksten, og sjarken er hvit strek på hvitt ark. */
+  .lampe,
+  .sjark {
     display: none !important;
   }
 
