@@ -7,7 +7,6 @@ export type Profil = {
   sted: string;
   epost: string;
   telefon?: string;
-  bildeUrl?: string;
   cvPdfUrl?: string;
   lenker: Lenke[];
 };
@@ -48,6 +47,8 @@ export type Prosjekt = {
   /** Kort notat som vises ved demo-lenka, f.eks. tilgangskode. */
   demoNotat?: string;
   kodeUrl?: string;
+  /** Skjermbilde i public/bilder, i liggende format. Toppen av bildet er det
+   *  som vises når det beskjæres, så ta det fra toppen av siden. */
   bildeUrl?: string;
   /** Løftes fram på forsiden. */
   fremhevet?: boolean;

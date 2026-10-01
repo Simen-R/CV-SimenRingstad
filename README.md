@@ -62,15 +62,15 @@ src/
 └── types/cv.ts           # Typene som holder dataene i form
 
 public/
-├── bilder/               # Portrett og skjermbilder av prosjekter
+├── bilder/               # Sjarken og skjermbilder av prosjekter
 └── cv-....pdf            # PDF-versjon til nedlasting
 ```
 
 ## Bilder og PDF
 
-Legg portrettet som `public/bilder/portrett.jpg` og PDF-CV-en i `public/`.
-Stiene settes i `src/data/profil.ts`. Skjermbilder av prosjekter kan ligge i
-`public/bilder/` og pekes på med `bildeUrl` i `src/data/prosjekter.ts`.
+Legg PDF-CV-en i `public/` og sett stien som `cvPdfUrl` i `src/data/profil.ts`.
+Skjermbilder av prosjekter kan ligge i `public/bilder/` og pekes på med
+`bildeUrl` i `src/data/prosjekter.ts`.
 
 ## Publisering
 

@@ -7,12 +7,15 @@ import { Section } from "@/components/Section";
 import { ProsjektKort } from "@/components/ProsjektKort";
 import { Sti } from "@/components/Sti";
 import { DansendeTittel } from "@/components/DansendeTittel";
+import { cn } from "@/lib/utils";
 
 export default function Forside() {
   return (
     <>
       <section className="container relative pb-10 pt-16 sm:pb-14 sm:pt-24">
-        <FadeUp>
+        {/* Alt over bretten kommer inn med ren CSS, ikke FadeUp. Da er navnet
+            synlig fra første maling, også før JavaScript har lastet. */}
+        <div className="inn">
           <p className="pille">
             <span
               aria-hidden
@@ -30,9 +33,9 @@ export default function Forside() {
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed lg:max-w-xl">
             {profil.kortIngress}
           </p>
-        </FadeUp>
+        </div>
 
-        <FadeUp delay={120}>
+        <div className="inn [animation-delay:120ms]">
           <div className="mt-10 flex items-center justify-between gap-6">
             <div className="flex flex-wrap items-center gap-3">
               {/* Bare én handling er tintet – resten holder seg til glasset. */}
@@ -63,7 +66,7 @@ export default function Forside() {
               className="sjark hidden w-44 shrink-0 sm:block md:w-56 lg:hidden"
             />
           </div>
-        </FadeUp>
+        </div>
 
         {/*
           Sjarken «Lykken» henger i den tomme høyresida av heroen, med midten
@@ -74,9 +77,10 @@ export default function Forside() {
           opp i knapperada i stedet, der det står et tomrom til høyre.
         */}
         <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 lg:block">
-          <FadeUp delay={200}>
-            <span aria-hidden className="sjark block w-[19rem] xl:w-[23rem]" />
-          </FadeUp>
+          <span
+            aria-hidden
+            className="inn sjark block w-[19rem] [animation-delay:200ms] xl:w-[23rem]"
+          />
         </div>
       </section>
 
@@ -86,7 +90,14 @@ export default function Forside() {
         tittel="Utvalgte prosjekter"
         ingress="Ting jeg har bygget, fra idé til noe folk faktisk bruker."
       >
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Tre prosjekter fyller én rad på tre. Med fire blir det to og to,
+            i stedet for en rad på tre og ett kort som står alene under. */}
+        <div
+          className={cn(
+            "grid gap-6 sm:grid-cols-2",
+            fremhevedeProsjekter.length % 3 === 0 && "lg:grid-cols-3",
+          )}
+        >
           {fremhevedeProsjekter.map((prosjekt, indeks) => (
             <FadeUp key={prosjekt.id} delay={indeks * 80} className="h-full">
               <ProsjektKort prosjekt={prosjekt} />

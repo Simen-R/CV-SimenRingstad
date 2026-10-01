@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { Monogram } from "@/lib/monogram";
 import { profil } from "@/data/profil";
+import { SIDE_URL } from "@/lib/side";
 
 // Kortet som vises når URL-en limes inn i Slack, LinkedIn eller iMessage.
 export const alt = `${profil.navn}, ${profil.tittel}`;
@@ -61,7 +62,7 @@ export default function DelingsBilde() {
               backgroundColor: "#ffffff",
             }}
           />
-          <div style={{ color: "#b3b3bc" }}>cv-simen-ringstad.vercel.app</div>
+          <div style={{ color: "#b3b3bc" }}>{new URL(SIDE_URL).host}</div>
         </div>
       </div>
     ),

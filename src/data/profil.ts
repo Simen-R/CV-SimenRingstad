@@ -12,13 +12,14 @@ export const profil: Profil = {
   // Telefonnummeret er bevisst holdt utenfor nettsiden – som gateadressen
   // hører det hjemme i søknaden. Fjern kommentaren for å vise det igjen.
   // telefon: "FJERNET",
-  bildeUrl: "/bilder/portrett.jpg",
   // PDF-en inneholder gateadresse og telefonnummer. Vil du tilby nedlasting,
   // legg en versjon uten adresse i public/ og fjern kommentaren under.
   // cvPdfUrl: "/cv-simen-ringstad.pdf",
   lenker: [
     { navn: "GitHub", url: "https://github.com/Simen-R" },
-    // TODO: Fyll inn LinkedIn-URL-en din, eller slett linja.
-    { navn: "LinkedIn", url: "https://www.linkedin.com/in/" },
+    {
+      navn: "LinkedIn",
+      url: "https://www.linkedin.com/in/simen-ringstad-3b0878425",
+    },
   ],
 };

@@ -93,7 +93,10 @@ export function StoppKort({
         {/* Lukket er innholdet null piksler høyt, men fortsatt i DOM-en.
             `inert` holder det utenfor tabbing og skjermlesere så lenge. */}
         <div className="overflow-hidden" inert={!apen}>
-          <div className="border-t border-border/50 px-4 pb-4 pt-3.5 sm:px-5 sm:pb-5 sm:pt-4">
+          {/* Sammendraget speiles på venstre side av ryggraden, men panelet
+              står alltid venstrejustert. Punktlister og avsnitt over flere
+              linjer blir tunge å lese med ujevn venstremarg. */}
+          <div className="border-t border-border/50 px-4 pb-4 pt-3.5 text-left sm:px-5 sm:pb-5 sm:pt-4">
             {node.utdyping && (
               <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
                 {node.utdyping}
@@ -108,15 +111,9 @@ export function StoppKort({
                 )}
               >
                 {node.punkter.map((punkt) => (
-                  <li
-                    key={punkt}
-                    className={cn(
-                      // Kulepunktet er den samme lille firkanten som nodene på
-                      // ryggraden, og bytter side sammen med teksten.
-                      "flex gap-2.5 text-pretty",
-                      tilVenstre && "lg:flex-row-reverse",
-                    )}
-                  >
+                  // Kulepunktet er den samme lille firkanten som nodene på
+                  // ryggraden.
+                  <li key={punkt} className="flex gap-2.5 text-pretty">
                     <span
                       aria-hidden
                       className="mt-[0.7em] h-[3px] w-[3px] shrink-0 rounded-[1px] bg-svak"
@@ -128,12 +125,7 @@ export function StoppKort({
             )}
 
             {node.stikkord && node.stikkord.length > 0 && (
-              <div
-                className={cn(
-                  "mt-4 flex flex-wrap gap-1.5",
-                  tilVenstre && "lg:justify-end",
-                )}
-              >
+              <div className="mt-4 flex flex-wrap gap-1.5">
                 {node.stikkord.map((ord) => (
                   <span key={ord} className="sti-merke">
                     {ord}

@@ -1,8 +1,6 @@
 import type { Config } from "tailwindcss";
-import animate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -55,6 +53,19 @@ const config: Config = {
       transitionTimingFunction: {
         mjuk: "cubic-bezier(0.32, 0.72, 0, 1)",
       },
+      // Inngangen til det som står over bretten. Samme bevegelse som FadeUp,
+      // men ren CSS: den starter med første maling og venter ikke på at
+      // JavaScript skal laste. `both` holder elementet skjult gjennom
+      // forsinkelsen, så det ikke blinker inn før det skal.
+      keyframes: {
+        inn: {
+          from: { opacity: "0", transform: "translateY(1rem)" },
+          to: { opacity: "1", transform: "none" },
+        },
+      },
+      animation: {
+        inn: "inn 0.7s ease-out both",
+      },
       colors: {
         border: "hsl(var(--border))",
         ring: "hsl(var(--ring))",
@@ -92,7 +103,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate],
 };
 
 export default config;

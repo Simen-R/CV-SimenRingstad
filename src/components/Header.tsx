@@ -12,6 +12,14 @@ const navigasjon = [
   { navn: "Kontakt", url: "/kontakt" },
 ];
 
+/** Tonen er lik på desktop og i mobilmenyen. Bare formen på lenka skiller. */
+function tone(aktiv: boolean) {
+  // Aktiv side får en egen kapsel, ikke bare en annen tekstfarge.
+  return aktiv
+    ? "bg-accent-2 font-medium text-foreground"
+    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground";
+}
+
 export function Header() {
   const pathname = usePathname();
   const [apen, setApen] = useState(false);
@@ -38,10 +46,7 @@ export function Header() {
                   aria-current={aktiv ? "page" : undefined}
                   className={cn(
                     "rounded-full px-5 py-2.5 text-[0.9375rem] transition-all duration-500 ease-mjuk",
-                    // Aktiv side får en egen kapsel – ikke bare en annen tekstfarge.
-                    aktiv
-                      ? "bg-accent-2 font-medium text-foreground"
-                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                    tone(aktiv),
                   )}
                 >
                   {punkt.navn}
@@ -63,22 +68,24 @@ export function Header() {
 
         {apen && (
           <nav className="glass mt-2.5 rounded-lg p-2 md:hidden">
-            {navigasjon.map((punkt) => (
-              <Link
-                key={punkt.url}
-                href={punkt.url}
-                onClick={() => setApen(false)}
-                aria-current={pathname === punkt.url ? "page" : undefined}
-                className={cn(
-                  "block rounded-md px-4 py-3 text-[0.9375rem] transition-colors",
-                  pathname === punkt.url
-                    ? "bg-accent-2 font-medium text-foreground"
-                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
-                )}
-              >
-                {punkt.navn}
-              </Link>
-            ))}
+            {navigasjon.map((punkt) => {
+              const aktiv = pathname === punkt.url;
+
+              return (
+                <Link
+                  key={punkt.url}
+                  href={punkt.url}
+                  onClick={() => setApen(false)}
+                  aria-current={aktiv ? "page" : undefined}
+                  className={cn(
+                    "block rounded-md px-4 py-3 text-[0.9375rem] transition-colors",
+                    tone(aktiv),
+                  )}
+                >
+                  {punkt.navn}
+                </Link>
+              );
+            })}
           </nav>
         )}
       </div>

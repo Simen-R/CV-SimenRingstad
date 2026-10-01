@@ -59,4 +59,8 @@ Det viktigste på hele siden – her ser folk hva du faktisk kan.
 - **beskrivelse** – hva problemet var, hva du bygde, og ett valg du tok underveis.
   Det siste er det som skiller en portefølje fra en liste.
 - **rolle** – hva du gjorde selv, særlig hvis prosjektet var i gruppe.
-- **fremhevet: true** – løfter prosjektet til forsiden. Hold det til tre.
+- **bildeUrl** – skjermbilde i `public/bilder/`, tatt i full bredde på en vanlig
+  skjerm (rundt 1900 × 900). Det vises i 2:1 fra toppen, så det viktigste må stå
+  øverst. Ta det fra produksjonsversjonen, ellers kommer dev-ikonet til Next med.
+- **fremhevet: true** – løfter prosjektet til forsiden. Tre eller fire passer: tre
+  står på én rad, fire står to og to.

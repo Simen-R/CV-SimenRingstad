@@ -32,14 +32,15 @@ export const sti: StiInnhold = {
       organisasjon: "Snartup",
       periode: "2026–nå",
       beskrivelse:
-        "Inn som selvstendig IT-arbeider, videre som studentassistent, og CTO fra september 2026.",
+        "Teknisk ansvar for plattformen bak Snartup Festival, den årlige møteplassen for oppstartsmiljøet i Oslo.",
       spor: "arbeid",
       paagaaende: true,
-      utdyping: "Teknisk ansvar i en tidligfase-startup, ved siden av studiet.",
+      utdyping:
+        "Snartup samler oppstartsmiljøet i Oslo på nett gjennom hele året og fysisk på festivalen. Der pitcher startups, viser fram løsningene sine og møter partnere fra akademia og næringsliv.",
       punkter: [
         "Kom inn som IT-arbeider gjennom mitt eget enkeltpersonforetak.",
         "Ansatt som studentassistent gjennom SEFiO, Studentenes Entreprenørfond i Oslo.",
-        "Går inn i rollen som CTO fra september 2026.",
+        "Tok over som CTO i september 2026, i et team på sju.",
         "Bygger med AI-verktøy i det daglige.",
       ],
       stikkord: [

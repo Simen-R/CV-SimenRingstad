@@ -3,6 +3,7 @@ import { egenskaper } from "@/data/egenskaper";
 import { ferdigheter } from "@/data/ferdigheter";
 import { FadeUp } from "@/components/FadeUp";
 import { Egenskapsliste } from "@/components/Egenskapsliste";
+import { SideTopp } from "@/components/SideTopp";
 import { SkillGroup } from "@/components/SkillGroup";
 
 export const metadata: Metadata = {
@@ -14,14 +15,10 @@ export const metadata: Metadata = {
 export default function Ferdigheter() {
   return (
     <div className="container py-16">
-      <h1 className="text-4xl font-semibold tracking-stor sm:text-5xl">
-        Ferdigheter
-      </h1>
-      <p className="mt-4 max-w-2xl text-pretty text-lg text-muted-foreground">
-        Egenskapene står med eksempelet bak seg. Nivåene sier hvor selvstendig jeg
-        jobber, og står bare der jeg kan vise det. «Bygget med» er teknologiene
-        prosjektene mine er laget i.
-      </p>
+      <SideTopp
+        tittel="Ferdigheter"
+        ingress="Egenskapene står med eksempelet bak seg. Nivåene sier hvor selvstendig jeg jobber, og står bare der jeg kan vise det. «Bygget med» er teknologiene prosjektene mine er laget i."
+      />
 
       <section className="mt-14">
         <h2 className="text-2xl font-semibold tracking-stor sm:text-3xl">

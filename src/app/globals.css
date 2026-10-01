@@ -277,6 +277,13 @@
     mask: url("/bilder/sjark.png") center / contain no-repeat;
   }
 
+  /* Inngangen til det som står over bretten. Trapp flere elementer med
+     [animation-delay:120ms] og så videre. Lenger ned på siden gjør FadeUp
+     jobben, for der skal ting komme inn når de rulles fram. */
+  .inn {
+    @apply animate-inn motion-reduce:animate-none;
+  }
+
   /* Stikkord og perioder: kapselform, halve høyden som radius. */
   .pille {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
@@ -360,6 +367,103 @@
     color: hsl(var(--svak));
     border: 1px solid hsl(var(--border) / 0.7);
   }
+
+  /*
+    Lyset fra lampa renner ned ryggraden på stien mens sida rulles.
+
+    Laget dekker lista og endestoppet under den, og har sin egen
+    view-tidslinje. Streken vokser fra toppen i takt med rullinga: den
+    starter når toppen av lista når midten av vinduet, og er ferdig når
+    endestoppet gjør det. Da står tuppen
+    hele tida midt i vinduet. Ruller du opp igjen, trekker lyset seg tilbake.
+
+    Nodene har hver sin tidslinje og tennes i det de passerer midten, altså
+    samtidig som tuppen når dem. Fylte noder får bare glød. Hule noder får
+    i tillegg lys i kanten, så skillet mellom det som pågår og det som er
+    ferdig står seg.
+
+    Alt ligger bak @supports og redusert bevegelse. Uten støtte er laget
+    borte, og stien ser ut som den alltid har gjort.
+  */
+  .sti-lys {
+    display: none;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .sti-lys {
+        display: block;
+        view-timeline: --sti-lys block;
+      }
+
+      /* Forløpet skaleres med streken, så den lyseste delen er alltid nederst
+         ved tuppen. */
+      .sti-lys-strek {
+        transform-origin: top;
+        background: linear-gradient(
+          to bottom,
+          hsl(var(--lampe) / 0.08),
+          hsl(var(--lampe) / 0.75)
+        );
+        animation: sti-lys-strek linear both;
+        animation-timeline: --sti-lys;
+        animation-range: cover 50vh cover calc(100% - 50vh);
+      }
+
+      .sti-lys-tupp {
+        background: hsl(var(--lampe));
+        box-shadow:
+          0 0 6px 1px hsl(var(--lampe) / 0.8),
+          0 0 18px 4px hsl(var(--lampe) / 0.3);
+        animation: sti-lys-tupp linear both;
+        animation-timeline: --sti-lys;
+        animation-range: cover 50vh cover calc(100% - 50vh);
+      }
+
+      .sti-node {
+        animation: sti-node-tent linear both;
+        animation-timeline: view();
+        animation-range: cover calc(50vh - 1.5rem) cover 50vh;
+      }
+    }
+  }
+}
+
+@keyframes sti-lys-strek {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Tuppen tones inn i starten og ut i slutten, så den ikke står og lyser i
+   enden av en ferdig strek. */
+@keyframes sti-lys-tupp {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes sti-node-tent {
+  to {
+    border-color: hsl(var(--lampe));
+    box-shadow:
+      0 0 0 3px hsl(var(--lampe) / 0.12),
+      0 0 12px hsl(var(--lampe) / 0.55);
+  }
 }
 
 @media print {
@@ -372,15 +476,18 @@
     color: #000;
   }
 
-  body::before {
-    display: none;
-  }
-
   /* Lampa og sjarken er skjerm-pynt. På papir blir lampa bare et grått felt
      bak teksten, og sjarken er hvit strek på hvitt ark. */
   .lampe,
-  .sjark {
+  .sjark,
+  .sti-lys {
     display: none !important;
+  }
+
+  /* Hvor langt lyset har kommet, avhenger av hvor du sto da du trykket
+     skriv ut. Papiret får nodene slik de er uten lys. */
+  .sti-node {
+    animation: none !important;
   }
 
   .glass,

@@ -44,7 +44,7 @@ export function FadeUp({ children, delay = 0, className }: FadeUpProps) {
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
-        "transition-all duration-700 ease-out",
+        "transition-[opacity,transform] duration-700 ease-out",
         synlig ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
         className,
       )}

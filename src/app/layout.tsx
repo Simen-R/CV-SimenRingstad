@@ -6,12 +6,13 @@ import { Header } from "@/components/Header";
 import { Lampe } from "@/components/Lampe";
 import { Footer } from "@/components/Footer";
 import { profil } from "@/data/profil";
+import { SIDE_URL } from "@/lib/side";
 
 export const metadata: Metadata = {
   // Delingsbildet og andre URL-felt trenger et absolutt utgangspunkt. Uten
   // dette faller Next tilbake på deployment-URL-en fra Vercel, som endrer seg
   // for hver preview.
-  metadataBase: new URL("https://cv-simen-ringstad.vercel.app"),
+  metadataBase: new URL(SIDE_URL),
   title: {
     default: `${profil.navn} · ${profil.tittel}`,
     template: `%s · ${profil.navn}`,

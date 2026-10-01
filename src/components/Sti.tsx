@@ -51,18 +51,37 @@ export function Sti({ innhold }: { innhold: StiInnhold }) {
 
       {innhold.nesteStopp && <NesteStopp stopp={innhold.nesteStopp} />}
 
-      <ol>
-        {innhold.noder.map((node) => (
-          <Rad key={node.id} node={node} spor={innhold.spor} />
-        ))}
-      </ol>
-
-      {/* Halen: linja tones ut nederst i stedet for å stoppe brått. */}
-      <div className="flex justify-start lg:justify-center">
-        <span
+      <div className="relative">
+        {/*
+          Lyset som renner ned ryggraden mens sida rulles. Tuppen holder seg
+          midt i vinduet, og hver node tennes når den passerer. Alt styres av
+          CSS (scroll-drevne animasjoner, se .sti-lys i globals.css). Uten
+          støtte i nettleseren, eller med animasjoner skrudd av, er laget
+          borte, og stien står som før.
+        */}
+        <div
           aria-hidden
-          className="h-7 w-px bg-gradient-to-b from-border to-transparent"
-        />
+          className="sti-lys pointer-events-none absolute inset-y-0 left-0 z-[1] w-px lg:left-1/2"
+        >
+          <span className="sti-lys-strek absolute inset-0" />
+          <span className="sti-lys-tupp absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+        </div>
+
+        <ol>
+          {innhold.noder.map((node) => (
+            <Rad key={node.id} node={node} spor={innhold.spor} />
+          ))}
+        </ol>
+
+        {/* Endestoppet: linja går et stykke forbi siste kort og ender i en
+            node. Den står inne i lyslaget, så lyset har et sted å stoppe.
+            Streken og noden er plassert på samme måte som ryggraden i
+            radene over (left-0, og left-1/2 fra lg), så de står på linje
+            med den helt ned på halve piksler. */}
+        <div aria-hidden className="relative h-8">
+          <span className="absolute inset-y-0 left-0 w-px bg-border lg:left-1/2" />
+          <span className="sti-node absolute bottom-0 left-0 z-[2] h-2 w-2 -translate-x-1/2 rounded-[2px] border border-svak/70 bg-background lg:left-1/2 lg:h-[9px] lg:w-[9px]" />
+        </div>
       </div>
     </section>
   );
@@ -94,9 +113,11 @@ function NesteStopp({
           <span aria-hidden>→</span>
         </span>
       </Link>
+      {/* Starter på midten med marg i stedet for å sentreres med flex. Da
+          treffer den ryggraden på pikselen, og ikke en halv piksel ved siden av. */}
       <span
         aria-hidden
-        className="hidden h-9 w-px bg-gradient-to-b from-accent/55 to-accent/25 lg:block"
+        className="hidden h-9 w-px self-start bg-gradient-to-b from-accent/55 to-accent/25 lg:ml-[50%] lg:block"
       />
     </div>
   );
@@ -129,7 +150,7 @@ function Rad({
         className={cn(
           // top følger perioden på kortet, som flytter seg når innpaddingen
           // krymper på telefon.
-          "absolute -left-px top-10 h-2 w-2 -translate-x-1/2 rounded-[2px] sm:top-11 lg:hidden",
+          "sti-node absolute -left-px top-10 z-[2] h-2 w-2 -translate-x-1/2 rounded-[2px] sm:top-11 lg:hidden",
           node.paagaaende ? "bg-accent" : "border border-svak/70 bg-background",
         )}
       />
@@ -147,7 +168,7 @@ function Rad({
         />
         <span
           className={cn(
-            "absolute left-1/2 top-12 h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-[2px]",
+            "sti-node absolute left-1/2 top-12 z-[2] h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-[2px]",
             node.paagaaende
               ? "bg-accent"
               : "border border-svak/70 bg-background",
