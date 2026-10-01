@@ -33,6 +33,15 @@ export default function Forside() {
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed lg:max-w-xl">
             {profil.kortIngress}
           </p>
+          {profil.soker && (
+            <p className="mt-4 flex max-w-2xl items-baseline gap-2.5 text-pretty font-medium lg:max-w-xl">
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 shrink-0 -translate-y-0.5 rounded-full bg-accent"
+              />
+              {profil.soker}
+            </p>
+          )}
         </div>
 
         <div className="inn [animation-delay:120ms]">
@@ -48,6 +57,7 @@ export default function Forside() {
               {profil.cvPdfUrl && (
                 <a
                   href={profil.cvPdfUrl}
+                  download
                   className="rounded-full px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Last ned CV (PDF)

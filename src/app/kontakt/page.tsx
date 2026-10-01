@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { profil } from "@/data/profil";
 import { SideTopp } from "@/components/SideTopp";
+import { brregUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Kontakt",
@@ -39,7 +40,24 @@ export default function Kontakt() {
             ekstern
           />
         ))}
+
+        {profil.foretak && (
+          <KontaktRad
+            etikett="Enkeltpersonforetak"
+            href={brregUrl(profil.foretak.orgnr)}
+            tekst={`${profil.foretak.navn}, org.nr. ${profil.foretak.orgnr}`}
+            ekstern
+          />
+        )}
       </ul>
+
+      {profil.cvPdfUrl && (
+        <div className="inn mt-8 [animation-delay:200ms]">
+          <a href={profil.cvPdfUrl} download className="knapp-glass">
+            Last ned CV (PDF)
+          </a>
+        </div>
+      )}
     </div>
   );
 }

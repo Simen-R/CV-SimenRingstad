@@ -32,7 +32,9 @@ export const prosjekter: Prosjekt[] = [
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://pris-kalkulator.vercel.app/",
     demoNotat: "Tilgangskode: 2222",
-    kodeUrl: "https://github.com/Simen-R/Pris-kalkulator",
+    // Repoet er privat inntil GitHub-kontoen er ryddet. Gjør det offentlig
+    // før kommentaren fjernes, ellers møter leseren en 404.
+    // kodeUrl: "https://github.com/Simen-R/Pris-kalkulator",
     bildeUrl: "/bilder/priskalkulator.png",
     fremhevet: true,
   },
@@ -53,13 +55,15 @@ export const prosjekter: Prosjekt[] = [
   {
     id: "cv-nettside",
     navn: "Denne CV-siden",
+    pdfNavn: "Digital CV",
     ingress: "Digital CV bygget i Next.js, med Claude Code som medutvikler.",
     beskrivelse:
       "Alt innholdet ligger som typede data i src/data, så teksten kan endres uten å røre komponentene. «Veien hit» på forsiden er en tidslinje med arbeid på den ene siden og skole på den andre, og hvert kort kan foldes ut med detaljene fra CV-en. Bygget sammen med Claude Code: jeg satte arkitekturen, datamodellen og innholdet, og brukte modellen til å skrive og skrive om koden, og til å diskutere hva som burde stå hvor.",
     aar: "2026",
     rolle: "Utvikler med ansvar for arkitektur, datamodell og innhold",
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code"],
-    kodeUrl: "https://github.com/Simen-R/CV-SimenRingstad",
+    // Privat inntil videre, se Priskalkulator over.
+    // kodeUrl: "https://github.com/Simen-R/CV-SimenRingstad",
     bildeUrl: "/bilder/cv-siden.png",
     fremhevet: true,
   },

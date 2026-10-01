@@ -4,11 +4,19 @@ export type Profil = {
   navn: string;
   tittel: string;
   kortIngress: string;
+  /** Hva slags jobb jeg ser etter. Utelates når jeg ikke søker. */
+  soker?: string;
   sted: string;
   epost: string;
   telefon?: string;
   cvPdfUrl?: string;
   lenker: Lenke[];
+  /** Enkeltpersonforetaket mitt, slik det står i Enhetsregisteret. */
+  foretak?: {
+    navn: string;
+    /** Med mellomrom, slik det skrives: «936 587 178». */
+    orgnr: string;
+  };
 };
 
 export type Lenke = {
@@ -21,6 +29,8 @@ export type Egenskap = {
   navn: string;
   /** Én eller to setninger med det konkrete som ligger bak ordet. */
   belegg: string;
+  /** Står bak «Se flere» på siden og er utelatt fra PDF-en. */
+  gjemt?: boolean;
 };
 
 export type FerdighetsGruppe = {
@@ -42,6 +52,8 @@ export type Prosjekt = {
   beskrivelse: string;
   aar: string;
   rolle: string;
+  /** Navnet i PDF-en, der «denne siden» ikke gir mening. */
+  pdfNavn?: string;
   teknologier: string[];
   demoUrl?: string;
   /** Kort notat som vises ved demo-lenka, f.eks. tilgangskode. */

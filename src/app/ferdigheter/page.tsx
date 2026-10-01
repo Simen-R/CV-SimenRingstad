@@ -25,7 +25,7 @@ export default function Ferdigheter() {
           Slik jobber jeg
         </h2>
         <p className="mt-3 max-w-2xl text-pretty text-muted-foreground">
-          Sju ord jeg kan stå inne for, og det konkrete som ligger bak hvert av
+          Ord jeg kan stå inne for, og det konkrete som ligger bak hvert av
           dem.
         </p>
         <FadeUp className="mt-8">

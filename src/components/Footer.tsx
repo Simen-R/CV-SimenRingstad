@@ -1,4 +1,5 @@
 import { profil } from "@/data/profil";
+import { brregUrl } from "@/lib/utils";
 
 export function Footer() {
   return (
@@ -7,6 +8,19 @@ export function Footer() {
       <div className="container mt-10 flex flex-col gap-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {new Date().getFullYear()} {profil.navn}
+          {profil.foretak && (
+            <>
+              {" · "}
+              <a
+                href={brregUrl(profil.foretak.orgnr)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full transition-colors hover:text-foreground"
+              >
+                Org.nr. {profil.foretak.orgnr}
+              </a>
+            </>
+          )}
         </p>
         <div className="flex flex-wrap gap-5">
           <a
