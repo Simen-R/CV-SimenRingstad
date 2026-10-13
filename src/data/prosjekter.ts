@@ -22,7 +22,7 @@ export const prosjekter: Prosjekt[] = [
   },
   {
     id: "pris-kalkulator",
-    navn: "Priskalkulator",
+    navn: "tstools.no",
     ingress:
       "Internt salgsverktøy som regner ut riktig pakke og pris ut fra kundens behov.",
     beskrivelse:
@@ -30,7 +30,7 @@ export const prosjekter: Prosjekt[] = [
     aar: "2026",
     rolle: "Utvikler med ansvar for idé, logikk og grensesnitt",
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS"],
-    demoUrl: "https://pris-kalkulator.vercel.app/",
+    demoUrl: "https://tstools.no",
     demoNotat: "Tilgangskode: 2222",
     // Repoet er privat inntil GitHub-kontoen er ryddet. Gjør det offentlig
     // før kommentaren fjernes, ellers møter leseren en 404.
@@ -62,7 +62,7 @@ export const prosjekter: Prosjekt[] = [
     aar: "2026",
     rolle: "Utvikler med ansvar for arkitektur, datamodell og innhold",
     teknologier: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code"],
-    // Privat inntil videre, se Priskalkulator over.
+    // Privat inntil videre, se tstools.no over.
     // kodeUrl: "https://github.com/Simen-R/CV-SimenRingstad",
     bildeUrl: "/bilder/cv-siden.png",
     fremhevet: true,
