@@ -64,3 +64,16 @@ Det viktigste på hele siden – her ser folk hva du faktisk kan.
   øverst. Ta det fra produksjonsversjonen, ellers kommer dev-ikonet til Next med.
 - **fremhevet: true** – løfter prosjektet til forsiden. Tre eller fire passer: tre
   står på én rad, fire står to og to.
+
+## Profil og logo
+
+Notater som ikke står på siden ennå.
+
+- **Motto (ikke i bruk):** «Gjør det uoversiktlige forståelig.» Hentet fra egenskapen
+  «God på kommunikasjon» i `egenskaper.ts`. Kan stå under navnet på delingsbildet
+  (`src/app/opengraph-image.tsx`) eller på forsiden hvis det tas i bruk.
+- **Sjarken er logoen**, for meg og for foretaket Simen Ringstad. Den kommer fra farfar,
+  som er fisker og har sjark. Tegningen ligger i `public/bilder/sjark.png`,
+  hvit strek på gjennomsiktig bunn, og brukes på forsiden, i PDF-en og på
+  delingsbildet. Den er for detaljert til fanikonet, så der står SR-monogrammet til
+  det finnes en forenklet versjon av sjarken.

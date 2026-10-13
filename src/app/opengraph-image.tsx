@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { Monogram } from "@/lib/monogram";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { profil } from "@/data/profil";
 import { SIDE_URL } from "@/lib/side";
 
@@ -7,6 +8,17 @@ import { SIDE_URL } from "@/lib/side";
 export const alt = `${profil.navn}, ${profil.tittel}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Sjarken er logoen, for meg og for foretaket. Den er hvit strek på
+// gjennomsiktig bunn, så den legger seg rett på den marineblå flata.
+const sjark = `data:image/png;base64,${await readFile(
+  path.join(process.cwd(), "public/bilder/sjark.png"),
+  "base64",
+)}`;
+
+// Tegningen er 1400 × 854. Bredden bestemmer høyden.
+const sjarkBredde = 640;
+const sjarkHoyde = Math.round((sjarkBredde * 854) / 1400);
 
 export default function DelingsBilde() {
   return new ImageResponse(
@@ -19,17 +31,14 @@ export default function DelingsBilde() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 80,
+          position: "relative",
           color: "#fafafa",
           // Marineblå med en lysere blåtone som glød nede til høyre, samme bunn
-          // som forsiden. Gløden ligger med vilje motsatt av monogrammet: i
-          // samme hjørne ville den spist kanten på den hvite ikonflata.
+          // som forsiden. Sjarken ligger i gløden, så den løfter seg fra flata.
           backgroundImage: "linear-gradient(130deg, #0d1321 45%, #24344a 100%)",
         }}
       >
-        <div style={{ display: "flex", width: 104, height: 104 }}>
-          <Monogram storrelse={104} avrunding={0.22} />
-        </div>
-
+        {/* Navnet står øverst, så sjarken får hele nedre høyre hjørne. */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
@@ -64,6 +73,21 @@ export default function DelingsBilde() {
           />
           <div style={{ color: "#b3b3bc" }}>{new URL(SIDE_URL).host}</div>
         </div>
+
+        {/* Bølgelinja går ut i høyrekanten, som om sjarken seiler inn i bildet. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={sjark}
+          width={sjarkBredde}
+          height={sjarkHoyde}
+          alt=""
+          style={{
+            position: "absolute",
+            right: -40,
+            bottom: 0,
+            opacity: 0.85,
+          }}
+        />
       </div>
     ),
     { ...size },
