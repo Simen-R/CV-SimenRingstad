@@ -53,6 +53,26 @@ export const prosjekter: Prosjekt[] = [
     fremhevet: true,
   },
   {
+    // Oppstartsselskapet mitt. Jeg har laget alt selv: apparatet, programvaren
+    // og nettsiden.
+    // TODO: teknologilista er lest ut av nettstedet (Next.js på Vercel, data
+    // fra Entur og MET). Legg til resten av stakken. Fjern demoNotat når
+    // siden ikke lenger er under utvikling.
+    id: "iframe",
+    navn: "Iframe.no",
+    ingress:
+      "Oppstartsselskapet mitt: en informasjonsskjerm i ramme for veggen, med neste avgang, været og dagens avtaler. Resten av tiden henger den der som et bilde.",
+    beskrivelse:
+      "Et innrammet apparat i A-format som viser det du ellers ville sjekket på mobilen: avganger fra en valgt holdeplass via Entur, vær fra Meteorologisk institutt og dagens kalender. Når skjermen står urørt, faller den tilbake til kunst, egne bilder eller en klokke. Rutetabellen for de neste to døgnene lastes ned hver natt, så skjermen viser planlagte tider også når nettet faller ut. Apparatet har ingen innlogging, og serveren lagrer ingenting om brukeren. Iframe er et oppstartsselskap jeg driver selv, og jeg har laget alt fra apparatet og programvaren til nettsiden.",
+    aar: "2026",
+    rolle: "Gründer, med ansvar for hele produktet",
+    teknologier: ["Next.js", "React", "Entur API", "MET API"],
+    demoUrl: "https://iframe.no",
+    demoNotat: "Under utvikling",
+    bildeUrl: "/bilder/iframe.png",
+    fremhevet: true,
+  },
+  {
     id: "cv-nettside",
     navn: "Denne CV-siden",
     pdfNavn: "Digital CV",
@@ -65,7 +85,8 @@ export const prosjekter: Prosjekt[] = [
     // Privat inntil videre, se tstools.no over.
     // kodeUrl: "https://github.com/Simen-R/CV-SimenRingstad",
     bildeUrl: "/bilder/cv-siden.png",
-    fremhevet: true,
+    // Ikke på forsiden: leseren står allerede på den, og fire kort gir to
+    // rader på to i stedet for ett kort alene under.
   },
 ];
 
