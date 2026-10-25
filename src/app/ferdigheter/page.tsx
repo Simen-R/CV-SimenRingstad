@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { egenskaper } from "@/data/egenskaper";
 import { ferdigheter } from "@/data/ferdigheter";
+import { funfakta } from "@/data/funfakta";
 import { FadeUp } from "@/components/FadeUp";
 import { Egenskapsliste } from "@/components/Egenskapsliste";
+import { Funfakta } from "@/components/Funfakta";
 import { SideTopp } from "@/components/SideTopp";
 import { SkillGroup } from "@/components/SkillGroup";
 
@@ -44,6 +46,15 @@ export default function Ferdigheter() {
             </FadeUp>
           ))}
         </div>
+      </section>
+
+      <section className="mt-16">
+        <h2 className="text-2xl font-semibold tracking-stor sm:text-3xl">
+          Funfact
+        </h2>
+        <FadeUp className="mt-8">
+          <Funfakta funfakta={funfakta} />
+        </FadeUp>
       </section>
     </div>
   );
