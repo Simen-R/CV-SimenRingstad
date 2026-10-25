@@ -21,18 +21,18 @@ export function Monogram({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // Hvit flate og marineblå bokstaver. Snudd vei av resten av siden med
-        // vilje: et lyst ikon finner seg selv i en fanerad, et mørkt forsvinner.
-        // Forløpet er så vidt kjølig, så flata ikke blir en blank hvit firkant.
-        backgroundImage: "linear-gradient(135deg, #ffffff 0%, #dfe6f2 100%)",
+        // Bakgrunnen slik den ser ut under lampa i toppen av siden: marineblå
+        // (#0d1321) med lyskjegla (hsl 205 100% 90%) lagt over på 13 %.
+        // Teksten er den samme snøhvite som på siden.
+        backgroundColor: "#262f3e",
         borderRadius: storrelse * avrunding,
-        color: "#0d1321",
+        color: "#fafafa",
         fontSize: storrelse * 0.5,
         letterSpacing: sporing,
         // Satori legger sporinga også etter siste bokstav, så teksten havner
         // et halvt hakk til høyre. Denne henter den tilbake til midten.
         paddingRight: -sporing,
-        WebkitTextStroke: `${storrelse * 0.039}px #0d1321`,
+        WebkitTextStroke: `${storrelse * 0.039}px #fafafa`,
       }}
     >
       SR
