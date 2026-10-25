@@ -47,7 +47,7 @@ export function Footer() {
         aria-expanded og tastaturet, så footeren slipper å bli klientkomponent.
       */}
       <details className="group container mt-8">
-        <summary className="inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-4 py-2 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground [&::-webkit-details-marker]:hidden">
+        <summary className="glass inline-flex cursor-pointer list-none items-center gap-2 rounded-full px-4 py-2 text-xs text-muted-foreground transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
           Personvern
           <svg
             aria-hidden

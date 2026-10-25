@@ -131,55 +131,155 @@
 
 @layer components {
   /*
-    Web-oversettelse av Liquid Glass. Materialet hører til navigasjonslaget –
-    header, flytende knapperader – ikke til innholdet. Aldri glass oppå glass.
+    Liquid glass. Hele siden er bygget av ett materiale: headeren, kortene,
+    pillene og knappene. Det er definert én gang her, og hver flatetype
+    stiller bare på tokenene.
+
+    Fire lag bakfra: litt uskarphet med mye metning, én flat tint, tykkelse
+    som lys øverst og skygge nederst inni platen, og en opplyst kant. Kanten
+    er det som får flata til å leses som glass, så den er tegnet for seg i
+    ::after og ikke som border. En vanlig border er lik hele veien rundt;
+    her er den sterkest øverst, svakest på sidene og middels nederst.
+
+    Tinten er delt i farge og tetthet. Hover, manglende støtte og redusert
+    gjennomsiktighet skrur bare på tettheten, så fargen følger flata.
+
+    Blur holdes lav med vilje. Over et par piksler blir det matt film og ikke
+    glass. Blir teksten bak for urolig, er skruen --glass-tetthet.
+
+    Ingen SVG-brytning i backdrop-filter. Den koster en femtedel av bildene
+    under scrolling i Chromium og kjøres ikke i Safari eller Firefox.
+
+    Aldri glass oppå glass. Pillene og merkelappene inni kortene og knappene
+    inni headeren beholder sin tette form.
   */
-  .glass {
-    background: hsl(var(--surface) / 0.6);
-    border: 1px solid hsl(var(--border) / 0.7);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    /* Toppanslaget er kanten som fanger lys; skyggen løfter flata fra bakgrunnen. */
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.08),
-      inset 0 -1px 0 hsl(0 0% 0% / 0.2),
-      0 8px 32px hsl(var(--skygge) / 0.45);
+  :root {
+    --glass-farge: var(--card);
+    --glass-tetthet: 0.6;
+    --glass-blur: 4px;
+    --glass-saturate: 1.8;
+    --glass-rim: linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 0.3),
+      hsl(0 0% 100% / 0.07) 30%,
+      hsl(0 0% 100% / 0.04) 70%,
+      hsl(0 0% 100% / 0.12)
+    );
+    --glass-thickness:
+      inset 0 1px 1px hsl(0 0% 100% / 0.06),
+      inset 0 -1px 2px hsl(0 0% 0% / 0.25);
+    --glass-shadow: 0 8px 28px hsl(var(--skygge) / 0.4);
   }
 
-  /* Uten backdrop-filter blir glasset gjennomsiktig og teksten uleselig –
-     da tetter vi flata i stedet. */
+  [data-tema="lys"] {
+    --glass-rim: linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 0.9),
+      hsl(0 0% 100% / 0.3) 30%,
+      hsl(240 8% 12% / 0.06) 70%,
+      hsl(240 8% 12% / 0.1)
+    );
+    --glass-thickness: inset 0 1px 0 hsl(0 0% 100% / 0.6);
+    --glass-shadow: 0 8px 28px hsl(var(--skygge) / 0.08);
+  }
+
+  .glass,
+  .knapp-glass,
+  .knapp-primar,
+  .flate,
+  .pille:not(.flate *) {
+    position: relative;
+    /* Gjennomsiktig, så kortene kan farge den ved hover og fokus, og så
+       målene er de samme som med en vanlig kant. */
+    border: 1px solid transparent;
+    background: hsl(var(--glass-farge) / var(--glass-tetthet));
+    /* Prefikset først. Med var() i verdien slår Lightning CSS de to sammen og
+       beholder bare den siste, og Chromium leser ikke den prefiksede. */
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow: var(--glass-thickness), var(--glass-shadow);
+  }
+
+  /* Den opplyste kanten: en boks med 1px polstring der maska skjærer bort
+     innholdsboksen, så bare ringen av gradienten står igjen. Den ligger
+     innenfor den gjennomsiktige kanten og ikke oppå den, fordi
+     prosjektkortene klipper med overflow-hidden. */
+  .glass::after,
+  .knapp-glass::after,
+  .knapp-primar::after,
+  .flate::after,
+  .pille:not(.flate *)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--glass-rim);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Headeren og sekundærknappene ligger i bunnfargen. Høy tetthet fordi
+     headeren ruller over hvit tekst på mørk bunn. Målt med glyfene skjult
+     mot lyseste piksel gjennom hele forsiden: 0.78 ga den dempede
+     menyteksten 4,0:1, 0.84 gir 5,0:1. */
+  .glass,
+  .knapp-glass {
+    --glass-farge: var(--surface);
+    --glass-tetthet: 0.84;
+  }
+
+  .pille:not(.flate *) {
+    --glass-farge: var(--muted);
+  }
+
+  /* Hovedknappen er snøhvitt glass, så den fortsatt er den ene fylte
+     handlingen på en side. */
+  .knapp-primar {
+    --glass-farge: var(--primary);
+    --glass-tetthet: 0.88;
+    --glass-rim: linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 1),
+      hsl(0 0% 100% / 0.4) 30%,
+      hsl(0 0% 100% / 0.3) 70%,
+      hsl(0 0% 100% / 0.7)
+    );
+    --glass-thickness:
+      inset 0 1px 1px hsl(0 0% 100% / 0.8),
+      inset 0 -1px 2px hsl(var(--skygge) / 0.2);
+    --glass-shadow: 0 4px 14px hsl(var(--skygge) / 0.5);
+  }
+
+  /* Uten backdrop-filter blir glasset gjennomsiktig og teksten uleselig.
+     Da tetter vi flata i stedet. Det samme når brukeren har bedt om mindre
+     gjennomsiktighet. !important fordi hover og flatetypene ellers setter
+     tettheten tilbake. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .glass {
-      background: hsl(var(--surface) / 0.94);
+    .glass,
+    .knapp-glass,
+    .knapp-primar,
+    .flate,
+    .pille:not(.flate *) {
+      --glass-tetthet: 0.94 !important;
     }
   }
 
-  [data-tema="lys"] .glass,
-  [data-tema="lys"] .knapp-glass {
-    background: hsl(0 0% 100% / 0.72);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.6),
-      0 8px 28px hsl(var(--skygge) / 0.08);
-  }
-
-  /*
-    Innholdslaget: kort, paneler, lister. Samme familie som glasset, men en
-    tett flate med et svakt forløp i stedet for uskarphet – billigere å tegne
-    og lesbar oppå gløden.
-  */
-  .flate {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border) / 0.6);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.05),
-      0 1px 2px hsl(var(--skygge) / 0.4);
-  }
-
-  [data-tema="lys"] .flate {
-    background: hsl(var(--card));
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.8),
-      0 1px 2px hsl(var(--skygge) / 0.05);
+  @media (prefers-reduced-transparency: reduce) {
+    .glass,
+    .knapp-glass,
+    .knapp-primar,
+    .flate,
+    .pille:not(.flate *) {
+      --glass-tetthet: 0.97 !important;
+    }
   }
 
   /* Kort som svarer på pekeren: løfter seg litt og lar kanten ta farge. */
@@ -195,13 +295,15 @@
     transform: translateY(-2px);
     border-color: hsl(var(--accent) / 0.4);
     box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.07),
+      var(--glass-thickness),
       0 12px 32px hsl(var(--skygge) / 0.5);
   }
 
   [data-tema="lys"] .flate-interaktiv:hover,
   [data-tema="lys"] .flate-interaktiv:focus-visible {
-    box-shadow: 0 12px 28px hsl(var(--skygge) / 0.1);
+    box-shadow:
+      var(--glass-thickness),
+      0 12px 28px hsl(var(--skygge) / 0.1);
   }
 
   /*
@@ -284,7 +386,8 @@
     @apply animate-inn motion-reduce:animate-none;
   }
 
-  /* Stikkord og perioder: kapselform, halve høyden som radius. */
+  /* Stikkord og perioder: kapselform, halve høyden som radius. Denne tette
+     formen gjelder inni kort. Utenfor kort er pilla glass, se over. */
   .pille {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
     background: hsl(var(--muted));
@@ -292,14 +395,12 @@
     border: 1px solid hsl(var(--border) / 0.5);
   }
 
-  /* Primærhandling: snøhvit flate med marineblå tekst. Den eneste fylte
+  /* Primærhandling: snøhvitt glass med marineblå tekst. Den eneste fylte
      knappen på en side, så aksenten ellers holder seg til lenker og
      tilstander. */
   .knapp-primar {
     @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
-    background: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
-    box-shadow: 0 4px 14px hsl(var(--skygge) / 0.5);
     transition:
       transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
       box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1);
@@ -307,24 +408,21 @@
 
   .knapp-primar:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 22px hsl(var(--skygge) / 0.6);
+    --glass-shadow: 0 8px 22px hsl(var(--skygge) / 0.6);
   }
 
-  /* Sekundærhandling – glass, ingen tint. */
+  /* Sekundærhandling: glass i bunnfargen. */
   .knapp-glass {
-    @apply glass inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
+    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-medium;
     transition:
       transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
       background-color 0.3s ease-out;
   }
 
+  /* Hover tetter glasset litt. Uskarpheten står i ro. */
   .knapp-glass:hover {
     transform: translateY(-1px);
-    background: hsl(var(--surface) / 0.85);
-  }
-
-  [data-tema="lys"] .knapp-glass:hover {
-    background: hsl(0 0% 100% / 0.9);
+    --glass-tetthet: 0.92;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -491,11 +589,22 @@
   }
 
   .glass,
-  .flate {
+  .knapp-glass,
+  .knapp-primar,
+  .flate,
+  .pille:not(.flate *) {
     background: #fff;
     border-color: #ddd;
     box-shadow: none;
     backdrop-filter: none;
+  }
+
+  .glass::after,
+  .knapp-glass::after,
+  .knapp-primar::after,
+  .flate::after,
+  .pille:not(.flate *)::after {
+    display: none;
   }
 
   /* På skjerm er detaljene på stien lukket til noen trykker. På papir finnes
