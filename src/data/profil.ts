@@ -12,7 +12,7 @@ export const profil: Profil = {
   // `telefon` finnes i typen og vises på kontaktsiden og i PDF-en hvis det
   // fylles ut.
   sted: "Oslo, Norge",
-  epost: "simen.ringstad@icloud.com",
+  epost: "simen.ringstad.enk@gmail.com",
   // PDF-en lages av src/app/cv.pdf/route.ts fra de samme dataene som siden,
   // så den er alltid oppdatert og har verken gateadresse eller telefon.
   cvPdfUrl: "/cv.pdf",
