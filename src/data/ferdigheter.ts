@@ -34,6 +34,10 @@ export const ferdigheter: FerdighetsGruppe[] = [
   },
   {
     navn: "Annet",
-    ferdigheter: [{ navn: "Førerkort klasse B (med manuell)" }],
+    ferdigheter: [
+      { navn: "Gartnerarbeid" },
+      { navn: "Dekkmontør" },
+      { navn: "Førerkort klasse B (med manuell)" },
+    ],
   },
 ];
