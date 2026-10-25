@@ -7,13 +7,12 @@ export const profil: Profil = {
     "Helsefagarbeideren som ble teknolog. Jeg tar en bachelor i anvendt datateknologi, samtidig som jeg er CTO i Snartup og jobber med teknisk kundeservice i Telia.",
   // Står under ingressen på forsiden og øverst i PDF-en.
   soker: "Ser etter en fulltidsjobb. Gjerne tett på teknologien, men ikke som ren utvikler.",
-  // Gateadressen fra PDF-en er med vilje utelatt – den hører hjemme i søknaden,
-  // ikke på en åpen nettside.
+  // Gateadresse og telefonnummer er med vilje utelatt. De hører hjemme i
+  // søknaden, ikke på en åpen nettside eller i et offentlig repo. Feltet
+  // `telefon` finnes i typen og vises på kontaktsiden og i PDF-en hvis det
+  // fylles ut.
   sted: "Oslo, Norge",
   epost: "simen.ringstad@icloud.com",
-  // Telefonnummeret er bevisst holdt utenfor nettsiden – som gateadressen
-  // hører det hjemme i søknaden. Fjern kommentaren for å vise det igjen.
-  // telefon: "FJERNET",
   // PDF-en lages av src/app/cv.pdf/route.ts fra de samme dataene som siden,
   // så den er alltid oppdatert og har verken gateadresse eller telefon.
   cvPdfUrl: "/cv.pdf",
